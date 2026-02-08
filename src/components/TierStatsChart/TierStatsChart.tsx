@@ -217,7 +217,6 @@ export function TierStatsChart({ memberName }: TierStatsChartProps) {
     return "꾸준히 문제를 풀고 있어요!";
   };
 
-  const loading = isLoadingTierGroups || isLoadingTiers;
 
   return (
     <Styled.ChartContainer>
