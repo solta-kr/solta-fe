@@ -69,11 +69,11 @@ export function TierStatsChart({ memberName }: TierStatsChartProps) {
   const [selectedTier, setSelectedTier] = useState<string>("ALL");
   const [selectedTag, setSelectedTag] = useState<TagKey | "">("");
 
-  const { data: tierGroupAverages = [], isLoading: isLoadingTierGroups } = useQuery(
+  const { data: tierGroupAverages = [] } = useQuery(
     solvedQueryOptions.tierGroupAverages(memberName, selectedTag || undefined)
   );
 
-  const { data: tierAverages = null, isLoading: isLoadingTiers } = useQuery(
+  const { data: tierAverages = null } = useQuery(
     solvedQueryOptions.tierAverages(memberName, selectedTag || undefined)
   );
 
