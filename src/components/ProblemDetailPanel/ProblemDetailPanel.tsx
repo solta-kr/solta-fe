@@ -2,6 +2,7 @@ import { Clock, Users, Zap, Trophy, Target, BookOpen, ChevronRight } from "lucid
 import { getTierGroupFromTier, TIER_GROUP_COLORS, hslToRgb } from "../../constants/tierColors";
 import formatSeconds from "../../utils/formatSeconds";
 import type { ProblemDetailResponse } from "../../types/api";
+import { trackEvent } from "../../utils/gtag";
 import * as Styled from "./ProblemDetailPanel.styled";
 
 interface ProblemDetailPanelProps {
@@ -171,6 +172,7 @@ export function ProblemDetailPanel({ detail }: ProblemDetailPanelProps) {
         href={`https://www.acmicpc.net/problem/${bojProblemId}`}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => trackEvent('click_solve_on_boj', { problem_id: bojProblemId, tier })}
       >
         백준에서 풀기
         <ChevronRight size={16} />

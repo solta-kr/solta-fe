@@ -10,6 +10,7 @@ import { Trophy, Clock, Target, X } from "lucide-react";
 import { solvedQueryOptions } from "../api/queries/solved";
 import { problemApi } from "../api/api";
 import formatSeconds from "../utils/formatSeconds";
+import { trackEvent } from "../utils/gtag";
 import * as Styled from "./ProfilePage.styled";
 
 export function ProfilePage() {
@@ -39,6 +40,7 @@ export function ProfilePage() {
   const averageTimeSeconds = profile?.totalSolvedAverageTime || 0;
 
   const handleProblemClick = (bojProblemId: number) => {
+    trackEvent('view_problem_detail', { problem_id: bojProblemId, source: 'profile' });
     setSelectedBojId(bojProblemId);
   };
 
@@ -123,19 +125,19 @@ export function ProfilePage() {
           <Styled.TabHeader>
             <Styled.TabButton
               active={activeTab === "recent"}
-              onClick={() => setActiveTab("recent")}
+              onClick={() => { trackEvent('profile_tab_switch', { tab: 'recent' }); setActiveTab("recent"); }}
             >
               최근 풀이
             </Styled.TabButton>
             <Styled.TabButton
               active={activeTab === "stats"}
-              onClick={() => setActiveTab("stats")}
+              onClick={() => { trackEvent('profile_tab_switch', { tab: 'stats' }); setActiveTab("stats"); }}
             >
               통계
             </Styled.TabButton>
             <Styled.TabButton
               active={activeTab === "retry"}
-              onClick={() => setActiveTab("retry")}
+              onClick={() => { trackEvent('profile_tab_switch', { tab: 'retry' }); setActiveTab("retry"); }}
             >
               다시 도전하기
             </Styled.TabButton>

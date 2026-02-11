@@ -6,6 +6,7 @@ import { problemApi } from "../api/api";
 import { ProblemCard } from "../components/ProblemCard/ProblemCard";
 import { ProblemDetailPanel } from "../components/ProblemDetailPanel/ProblemDetailPanel";
 import type { ProblemSearchItem } from "../types/api";
+import { trackEvent } from "../utils/gtag";
 import * as Styled from "./ProblemSearchPage.styled";
 
 export default function ProblemSearchPage() {
@@ -155,7 +156,7 @@ export default function ProblemSearchPage() {
                     <ProblemCard
                       problem={problem}
                       isSelected={selectedProblem?.problemId === problem.problemId}
-                      onClick={() => setSelectedProblem(problem)}
+                      onClick={() => { trackEvent('view_problem_detail', { problem_id: problem.bojProblemId, source: 'search' }); setSelectedProblem(problem); }}
                     />
                   </div>
                 ))}

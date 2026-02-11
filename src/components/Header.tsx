@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { memberApi, problemApi, authApi } from '../api/api';
 import { getTierGroupFromTier, TIER_GROUP_COLORS, hslToRgb } from '../constants/tierColors';
 import { useAuth } from '../context/AuthContext';
+import { trackEvent } from '../utils/gtag';
 
 const HeaderContainer = styled.header`
 	background: ${({ theme }) => theme.colors.bgSecondary};
@@ -361,6 +362,7 @@ export function Header() {
 	}, []);
 
 	const handleLogin = async () => {
+		trackEvent('login_click', { method: 'github' });
 		const { url } = await authApi.getGithubLoginUrl();
 		window.location.href = url;
 	};
@@ -375,12 +377,14 @@ export function Header() {
 	const problems = problemData?.problems?.slice(0, 5) ?? [];
 
 	const handleMemberClick = (name: string) => {
+		trackEvent('search_user', { username: name });
 		setIsOpen(false);
 		setQuery('');
 		navigate(`/profile/${name}`);
 	};
 
 	const handleProblemClick = (bojProblemId: number) => {
+		trackEvent('search_problem', { problem_id: bojProblemId });
 		setIsOpen(false);
 		setQuery('');
 		navigate(`/problems?q=${bojProblemId}&select=${bojProblemId}`);
