@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import StatsPage from './pages/StatsPage';
 import ProfilePage from './pages/ProfilePage';
@@ -9,7 +10,9 @@ import PrivacyPage from './pages/PrivacyPage';
 
 function AppContent() {
 	const location = useLocation();
-	const hideHeader = location.pathname === '/problems' || location.pathname === '/login/success' || location.pathname === '/privacy';
+	const hiddenPaths = ['/problems', '/login/success'];
+	const hideHeader = hiddenPaths.includes(location.pathname);
+	const hideFooter = hiddenPaths.includes(location.pathname);
 
 	return (
 		<>
@@ -22,6 +25,7 @@ function AppContent() {
 				<Route path="/login/success" element={<AuthCallbackPage />} />
 				<Route path="/privacy" element={<PrivacyPage />} />
 			</Routes>
+			{!hideFooter && <Footer />}
 		</>
 	);
 }
