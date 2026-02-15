@@ -11,6 +11,7 @@ import type {
   MemberSearchResponse,
   OAuthLoginResponse,
   AuthMeResponse,
+  AuthCodeResponse,
 } from "../types/api";
 import type { SolvedPeriod, TierGroup } from "../types/types";
 
@@ -125,6 +126,17 @@ export const authApi = {
   async getMe(): Promise<AuthMeResponse> {
     const response = await api.get<AuthMeResponse>("/members/me");
     return response.data;
+  },
+};
+
+export const bojApi = {
+  async createAuthCode(): Promise<AuthCodeResponse> {
+    const response = await api.post<AuthCodeResponse>("/boj/auth-code");
+    return response.data;
+  },
+
+  async verify(shareUrl: string): Promise<void> {
+    await api.post("/boj/verify", { shareUrl });
   },
 };
 

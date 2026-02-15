@@ -121,6 +121,15 @@ export interface AuthMeResponse {
   id: number;
   name: string;
   githubId: string;
-  bojId: string;
+  bojId: string | null;
   avatarUrl: string;
+}
+
+// BOJ 인증 관련 타입
+export interface AuthCodeResponse {
+  code: string;
+}
+
+export interface BojVerifyRequest {
+  shareUrl: string;
 }
