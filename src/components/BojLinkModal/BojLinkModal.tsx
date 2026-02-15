@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { X, Copy, Check } from "lucide-react";
+import { X, Copy, Check, ExternalLink } from "lucide-react";
 import { bojApi } from "../../api/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { authQueryKeys } from "../../api/queries/auth";
+import bojExampleImg from "../../assets/boj_example.png";
 import * as Styled from "./BojLinkModal.styled";
 
 interface BojLinkModalProps {
@@ -94,9 +95,17 @@ export function BojLinkModal({ onClose }: BojLinkModalProps) {
                   <Styled.StepContent>
                     <Styled.StepTitle>백준에 인증코드 제출</Styled.StepTitle>
                     <Styled.StepDescription>
-                      백준에서 아무 문제나 선택한 뒤, 인증코드를 소스코드로 제출하세요.
+                      아래 문제에서 인증코드를 소스코드로 제출하세요.
                       언어는 <strong>Text</strong>를 선택해주세요.
                     </Styled.StepDescription>
+                    <Styled.ProblemLink
+                      href="https://www.acmicpc.net/submit/15802"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <ExternalLink size={13} />
+                      15802번 - 타노스 제출하기
+                    </Styled.ProblemLink>
                   </Styled.StepContent>
                 </Styled.StepItem>
                 <Styled.StepItem>
@@ -104,9 +113,9 @@ export function BojLinkModal({ onClose }: BojLinkModalProps) {
                   <Styled.StepContent>
                     <Styled.StepTitle>소스 공유 URL 입력</Styled.StepTitle>
                     <Styled.StepDescription>
-                      제출 후 해당 제출의 소스 공유 링크를 복사하여 붙여넣으면 인증이
-                      완료됩니다.
+                      제출 후 해당 제출의 소스 코드 페이지에서 아래처럼 &lsquo;공유&rsquo; 버튼을 눌러 나온 URL을 복사하여 붙여넣으면 인증이 완료됩니다.
                     </Styled.StepDescription>
+                    <Styled.ExampleImage src={bojExampleImg} alt="소스 공유 버튼 예시" />
                   </Styled.StepContent>
                 </Styled.StepItem>
               </Styled.StepList>
@@ -131,7 +140,11 @@ export function BojLinkModal({ onClose }: BojLinkModalProps) {
                   </Styled.CopyButton>
                 </Styled.CodeBox>
                 <Styled.InputDescription>
-                  이 코드를 백준에서 아무 문제에 <strong>Text</strong> 언어로 제출하세요.
+                  이 코드를{" "}
+                  <Styled.InlineLink href="https://www.acmicpc.net/submit/15802" target="_blank" rel="noopener noreferrer">
+                    15802번 문제
+                  </Styled.InlineLink>
+                  에 <strong>Text</strong> 언어로 제출하세요.
                 </Styled.InputDescription>
               </Styled.InputSection>
 

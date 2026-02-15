@@ -57,6 +57,47 @@ export const UserId = styled.h1`
   font-weight: 700;
 `;
 
+export const SolvedAcLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(1)};
+  padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(2)};
+  background: ${({ theme }) => theme.colors.bgTertiary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #17ce3a;
+    color: #17ce3a;
+    background: rgba(23, 206, 58, 0.1);
+  }
+`;
+
+export const SolvedAcIcon = styled.svg`
+  flex-shrink: 0;
+`;
+
+export const BojIdRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(2)};
+`;
+
+export const BojProfileLink = styled.a`
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.primary};
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 export const UserStats = styled.div`
   display: flex;
   flex-direction: column;
