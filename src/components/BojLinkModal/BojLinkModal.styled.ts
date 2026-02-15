@@ -26,7 +26,7 @@ export const Modal = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   box-shadow: ${({ theme }) => theme.shadows.lg};
-  width: 480px;
+  width: 560px;
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 64px);
   overflow-y: auto;
@@ -264,8 +264,22 @@ export const ProblemLink = styled.a`
   }
 `;
 
+export const UrlExamples = styled.ul`
+  margin: ${({ theme }) => theme.spacing(1)} 0 0;
+  padding-left: ${({ theme }) => theme.spacing(4)};
+  list-style: disc;
+
+  li {
+    font-size: 0.72rem;
+    color: ${({ theme }) => theme.colors.textMuted};
+    font-family: 'Fira Code', 'SF Mono', monospace;
+    line-height: 1.6;
+  }
+`;
+
 export const ExampleImage = styled.img`
-  margin-top: ${({ theme }) => theme.spacing(2)};
+  display: block;
+  margin: ${({ theme }) => theme.spacing(3)} auto 0;
   width: 100%;
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   border: 1px solid ${({ theme }) => theme.colors.border};

@@ -96,7 +96,6 @@ export function BojLinkModal({ onClose }: BojLinkModalProps) {
                     <Styled.StepTitle>백준에 인증코드 제출</Styled.StepTitle>
                     <Styled.StepDescription>
                       아래 문제에서 인증코드를 소스코드로 제출하세요.
-                      언어는 <strong>Text</strong>를 선택해주세요.
                     </Styled.StepDescription>
                     <Styled.ProblemLink
                       href="https://www.acmicpc.net/submit/15802"
@@ -113,9 +112,8 @@ export function BojLinkModal({ onClose }: BojLinkModalProps) {
                   <Styled.StepContent>
                     <Styled.StepTitle>소스 공유 URL 입력</Styled.StepTitle>
                     <Styled.StepDescription>
-                      제출 후 해당 제출의 소스 코드 페이지에서 아래처럼 &lsquo;공유&rsquo; 버튼을 눌러 나온 URL을 복사하여 붙여넣으면 인증이 완료됩니다.
+                      제출 후 해당 제출의 소스 코드 페이지에서 &lsquo;공유&rsquo; 버튼을 눌러 나온 URL을 복사하여 붙여넣으면 인증이 완료됩니다.
                     </Styled.StepDescription>
-                    <Styled.ExampleImage src={bojExampleImg} alt="소스 공유 버튼 예시" />
                   </Styled.StepContent>
                 </Styled.StepItem>
               </Styled.StepList>
@@ -144,7 +142,7 @@ export function BojLinkModal({ onClose }: BojLinkModalProps) {
                   <Styled.InlineLink href="https://www.acmicpc.net/submit/15802" target="_blank" rel="noopener noreferrer">
                     15802번 문제
                   </Styled.InlineLink>
-                  에 <strong>Text</strong> 언어로 제출하세요.
+                  에 소스코드로 제출하세요.
                 </Styled.InputDescription>
               </Styled.InputSection>
 
@@ -154,13 +152,18 @@ export function BojLinkModal({ onClose }: BojLinkModalProps) {
                 <Styled.InputLabel>소스 공유 URL</Styled.InputLabel>
                 <Styled.Input
                   type="text"
-                  placeholder="https://www.acmicpc.net/source/share/..."
+                  placeholder="소스 공유 URL을 붙여넣으세요"
                   value={shareUrl}
                   onChange={(e) => setShareUrl(e.target.value)}
                 />
                 <Styled.InputDescription>
-                  제출 후 &lsquo;소스 공유&rsquo; 버튼을 눌러 나온 URL을 입력하세요.
+                  제출 후 &lsquo;공유&rsquo; 버튼을 눌러 나온 URL을 입력하세요.
                 </Styled.InputDescription>
+                <Styled.UrlExamples>
+                  <li>https://www.acmicpc.net/source/share/abc123...</li>
+                  <li>http://boj.kr/abc123...</li>
+                </Styled.UrlExamples>
+                <Styled.ExampleImage src={bojExampleImg} alt="공유 버튼 예시" />
               </Styled.InputSection>
 
               {error && <Styled.ErrorMessage>{error}</Styled.ErrorMessage>}
