@@ -6,17 +6,24 @@ import { SolveTrendsChart } from "../components/SolveTrendsChart/SolveTrendsChar
 import { RetryListCard } from "../components/RetryListCard/RetryListCard";
 import { TierStatsChart } from "../components/TierStatsChart/TierStatsChart";
 import { ProblemDetailPanel } from "../components/ProblemDetailPanel/ProblemDetailPanel";
-import { Trophy, Clock, Target, X } from "lucide-react";
+import { BojLinkModal } from "../components/BojLinkModal/BojLinkModal";
+import { Trophy, Clock, Target, X, Link as LinkIcon } from "lucide-react";
 import { solvedQueryOptions } from "../api/queries/solved";
 import { problemApi } from "../api/api";
 import formatSeconds from "../utils/formatSeconds";
 import { trackEvent } from "../utils/gtag";
+import { useAuth } from "../context/AuthContext";
 import * as Styled from "./ProfilePage.styled";
 
 export function ProfilePage() {
   const { username } = useParams<{ username: string }>();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<"recent" | "stats" | "retry">("recent");
   const [selectedBojId, setSelectedBojId] = useState<number | null>(null);
+  const [showBojModal, setShowBojModal] = useState(false);
+
+  const isMyProfile = user?.name === username;
+  const needsBojLink = isMyProfile && !user?.bojId;
 
   const { data: profile, isLoading: isLoadingProfile, isError: isErrorProfile } = useQuery(
     solvedQueryOptions.profile(username || "")
@@ -84,11 +91,30 @@ export function ProfilePage() {
               <Styled.UserHeader>
                 <Styled.UserId>{username}</Styled.UserId>
               </Styled.UserHeader>
-              <Styled.UserStats>
-                <div>
-                  시간기록 문제: <Styled.StatHighlight>{totalSolved}개</Styled.StatHighlight>
-                </div>
-              </Styled.UserStats>
+              {profile?.bojId && (
+                <Styled.UserStats>
+                  <Styled.BojIdRow>
+                    <span>백준 ID: <Styled.BojProfileLink href={`https://www.acmicpc.net/user/${profile.bojId}`} target="_blank" rel="noopener noreferrer">{profile.bojId}</Styled.BojProfileLink></span>
+                    <Styled.SolvedAcLink
+                      href={`https://solved.ac/profile/${profile.bojId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Styled.SolvedAcIcon viewBox="0 0 100 60" width={20} height={12}>
+                        <rect x="0" y="0" width="100" height="60" rx="12" fill="#17ce3a" />
+                        <text x="50" y="43" textAnchor="middle" fill="#fff" fontSize="36" fontWeight="800" fontFamily="Arial, sans-serif">AC</text>
+                      </Styled.SolvedAcIcon>
+                      solved.ac
+                    </Styled.SolvedAcLink>
+                  </Styled.BojIdRow>
+                </Styled.UserStats>
+              )}
+              {needsBojLink && (
+                <Styled.BojLinkButton onClick={() => setShowBojModal(true)}>
+                  <LinkIcon size={14} />
+                  백준 ID 연결하기
+                </Styled.BojLinkButton>
+              )}
             </Styled.UserDetails>
           </Styled.UserInfo>
         </Styled.UserSection>
@@ -183,6 +209,8 @@ export function ProfilePage() {
           ) : null}
         </Styled.DrawerBody>
       </Styled.DrawerPanel>
+
+      {showBojModal && <BojLinkModal onClose={() => setShowBojModal(false)} />}
     </>
   );
 }
