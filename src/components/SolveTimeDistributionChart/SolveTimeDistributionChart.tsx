@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 import {
   BarChart,
   Bar,
@@ -54,11 +54,12 @@ export function SolveTimeDistributionChart({
   }, [distribution, myPosition]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderBar = useCallback((props: any) => {
+  const renderBar = (props: any) => {
     const { x, y, width, height, index } = props;
     const isMine = index === myBucketIndex;
     const fill = isMine ? PRIMARY_COLOR : MUTED_COLOR;
     const r = 2;
+    const clipId = `dist-avatar-clip-${index}`;
 
     return (
       <g>
@@ -71,7 +72,7 @@ export function SolveTimeDistributionChart({
         {isMine && avatarUrl && (
           <>
             <defs>
-              <clipPath id="dist-avatar-clip">
+              <clipPath id={clipId}>
                 <circle
                   cx={x + width / 2}
                   cy={y - AVATAR_SIZE / 2 - 4}
@@ -91,14 +92,14 @@ export function SolveTimeDistributionChart({
               y={y - AVATAR_SIZE - 4}
               width={AVATAR_SIZE}
               height={AVATAR_SIZE}
-              clipPath="url(#dist-avatar-clip)"
+              clipPath={`url(#${clipId})`}
               preserveAspectRatio="xMidYMid slice"
             />
           </>
         )}
       </g>
     );
-  }, [myBucketIndex, avatarUrl]);
+  };
 
   return (
     <Styled.Container>
