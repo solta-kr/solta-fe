@@ -46,10 +46,13 @@ export function SolveTimeDistributionChart({
   );
 
   const myBucketIndex = useMemo(() => {
+    const lastIdx = distribution.length - 1;
     return distribution.findIndex(
-      (b) =>
+      (b, i) =>
         myPosition.solveTimeSeconds >= b.rangeStart &&
-        myPosition.solveTimeSeconds < b.rangeEnd
+        (i === lastIdx
+          ? myPosition.solveTimeSeconds <= b.rangeEnd
+          : myPosition.solveTimeSeconds < b.rangeEnd)
     );
   }, [distribution, myPosition]);
 
@@ -127,7 +130,7 @@ export function SolveTimeDistributionChart({
               tick={{ fontSize: 10, fill: "#8A8D91" }}
               tickLine={false}
               axisLine={false}
-              interval={0}
+              interval={chartData.length > 12 ? 2 : chartData.length > 7 ? 1 : 0}
             />
             <YAxis
               tick={{ fontSize: 10, fill: "#8A8D91" }}
