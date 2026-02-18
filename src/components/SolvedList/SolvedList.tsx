@@ -6,7 +6,7 @@ import type { RecentSolvedResponse } from "../../types/api";
 
 type SolvedListProps = {
   solveds: RecentSolvedResponse[];
-  onProblemClick?: (bojProblemId: number) => void;
+  onProblemClick?: (bojProblemId: number, solveTimeSeconds: number | null) => void;
 };
 
 export function SolvedList({ solveds, onProblemClick }: SolvedListProps) {
