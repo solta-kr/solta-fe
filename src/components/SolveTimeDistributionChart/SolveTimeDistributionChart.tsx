@@ -46,13 +46,10 @@ export function SolveTimeDistributionChart({
   );
 
   const myBucketIndex = useMemo(() => {
-    const lastIdx = distribution.length - 1;
     return distribution.findIndex(
-      (b, i) =>
+      (b) =>
         myPosition.solveTimeSeconds >= b.rangeStart &&
-        (i === lastIdx
-          ? myPosition.solveTimeSeconds <= b.rangeEnd
-          : myPosition.solveTimeSeconds < b.rangeEnd)
+        myPosition.solveTimeSeconds <= b.rangeEnd
     );
   }, [distribution, myPosition]);
 
