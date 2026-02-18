@@ -9,7 +9,7 @@ type SortOption = "LATEST" | "TIER" | "SOLVE_TIME";
 
 interface RetryListCardProps {
   memberName: string;
-  onProblemClick?: (bojProblemId: number) => void;
+  onProblemClick?: (bojProblemId: number, solveTimeSeconds: number | null) => void;
 }
 
 export function RetryListCard({ memberName, onProblemClick }: RetryListCardProps) {

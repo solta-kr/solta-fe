@@ -20,6 +20,7 @@ export function ProfilePage() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<"recent" | "stats" | "retry">("recent");
   const [selectedBojId, setSelectedBojId] = useState<number | null>(null);
+  const [selectedSolveTimeSeconds, setSelectedSolveTimeSeconds] = useState<number | null>(null);
   const [showBojModal, setShowBojModal] = useState(false);
 
   const isMyProfile = user?.name === username;
@@ -46,13 +47,15 @@ export function ProfilePage() {
   const totalTimeSeconds = profile?.totalSolvedTime || 0;
   const averageTimeSeconds = profile?.totalSolvedAverageTime || 0;
 
-  const handleProblemClick = (bojProblemId: number) => {
+  const handleProblemClick = (bojProblemId: number, solveTimeSeconds: number | null) => {
     trackEvent('view_problem_detail', { problem_id: bojProblemId, source: 'profile' });
     setSelectedBojId(bojProblemId);
+    setSelectedSolveTimeSeconds(solveTimeSeconds);
   };
 
   const handleCloseDrawer = () => {
     setSelectedBojId(null);
+    setSelectedSolveTimeSeconds(null);
   };
 
   if (loading) {
@@ -205,7 +208,7 @@ export function ProfilePage() {
           {isDetailLoading ? (
             <Styled.DrawerLoading>불러오는 중...</Styled.DrawerLoading>
           ) : detail ? (
-            <ProblemDetailPanel detail={detail} />
+            <ProblemDetailPanel detail={detail} solveTimeSeconds={selectedSolveTimeSeconds} avatarUrl={profile?.avatarUrl} />
           ) : null}
         </Styled.DrawerBody>
       </Styled.DrawerPanel>

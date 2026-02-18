@@ -12,6 +12,7 @@ import type {
   OAuthLoginResponse,
   AuthMeResponse,
   AuthCodeResponse,
+  SolveTimeDistributionResponse,
 } from "../types/api";
 import type { SolvedPeriod, TierGroup } from "../types/types";
 
@@ -160,6 +161,19 @@ export const problemApi = {
   async getProblemDetail(bojProblemId: number): Promise<ProblemDetailResponse> {
     const response = await api.get<ProblemDetailResponse>(
       `/problems/${bojProblemId}`
+    );
+    return response.data;
+  },
+
+  async getSolveTimeDistribution(
+    bojProblemId: number,
+    solveTimeSeconds: number
+  ): Promise<SolveTimeDistributionResponse> {
+    const response = await api.get<SolveTimeDistributionResponse>(
+      `/problems/${bojProblemId}/solve-time-distribution`,
+      {
+        params: { solveTimeSeconds },
+      }
     );
     return response.data;
   },
