@@ -133,3 +133,25 @@ export interface AuthCodeResponse {
 export interface BojVerifyRequest {
   shareUrl: string;
 }
+
+// 풀이 시간 분포 관련 타입
+export interface DistributionBucket {
+  rangeStart: number;
+  rangeEnd: number;
+  count: number;
+}
+
+export interface MyPosition {
+  solveTimeSeconds: number;
+  topPercent: number;
+}
+
+export interface SolveTimeDistributionResponse {
+  bojProblemId: number;
+  title: string;
+  tier: Tier;
+  totalSolverCount: number;
+  bucketSize: number;
+  distribution: DistributionBucket[];
+  myPosition: MyPosition;
+}

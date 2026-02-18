@@ -1,15 +1,20 @@
 import { Clock, Users, Zap, Trophy, Target, BookOpen, ChevronRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { getTierGroupFromTier, TIER_GROUP_COLORS, hslToRgb } from "../../constants/tierColors";
 import formatSeconds from "../../utils/formatSeconds";
 import type { ProblemDetailResponse } from "../../types/api";
+import { problemApi } from "../../api/api";
 import { trackEvent } from "../../utils/gtag";
+import { SolveTimeDistributionChart } from "../SolveTimeDistributionChart/SolveTimeDistributionChart";
 import * as Styled from "./ProblemDetailPanel.styled";
 
 interface ProblemDetailPanelProps {
   detail: ProblemDetailResponse;
+  solveTimeSeconds?: number | null;
+  avatarUrl?: string;
 }
 
-export function ProblemDetailPanel({ detail }: ProblemDetailPanelProps) {
+export function ProblemDetailPanel({ detail, solveTimeSeconds, avatarUrl }: ProblemDetailPanelProps) {
   const {
     bojProblemId,
     title,
@@ -20,6 +25,13 @@ export function ProblemDetailPanel({ detail }: ProblemDetailPanelProps) {
     averageSolveTimeSeconds,
     shortestSolveTimeSeconds,
   } = detail;
+
+  const { data: distributionData } = useQuery({
+    queryKey: ["solveTimeDistribution", bojProblemId, solveTimeSeconds],
+    queryFn: () =>
+      problemApi.getSolveTimeDistribution(bojProblemId, solveTimeSeconds!),
+    enabled: solveTimeSeconds != null,
+  });
 
   const tierColor = hslToRgb(TIER_GROUP_COLORS[getTierGroupFromTier(tier)]);
   const selfSolveRatio = totalSolvedCount > 0
@@ -90,16 +102,18 @@ export function ProblemDetailPanel({ detail }: ProblemDetailPanelProps) {
         </Styled.TagList>
       </Styled.TagSection>
 
-      {/* Recommendation */}
-      <Styled.RecommendBox $color={recommendation.color}>
-        <Styled.RecommendIconBox $color={recommendation.color}>
-          <RecommendIcon size={20} color={recommendation.color} />
-        </Styled.RecommendIconBox>
-        <div>
-          <Styled.RecommendTitle>{recommendation.title}</Styled.RecommendTitle>
-          <Styled.RecommendDescription>{recommendation.description}</Styled.RecommendDescription>
-        </div>
-      </Styled.RecommendBox>
+      {/* Recommendation (프로필에서 풀이 기록 클릭 시 숨김) */}
+      {solveTimeSeconds == null && (
+        <Styled.RecommendBox $color={recommendation.color}>
+          <Styled.RecommendIconBox $color={recommendation.color}>
+            <RecommendIcon size={20} color={recommendation.color} />
+          </Styled.RecommendIconBox>
+          <div>
+            <Styled.RecommendTitle>{recommendation.title}</Styled.RecommendTitle>
+            <Styled.RecommendDescription>{recommendation.description}</Styled.RecommendDescription>
+          </div>
+        </Styled.RecommendBox>
+      )}
 
       {/* Stats */}
       <Styled.StatsSection>
@@ -166,6 +180,13 @@ export function ProblemDetailPanel({ detail }: ProblemDetailPanelProps) {
           </Styled.EmptyState>
         )}
       </Styled.StatsSection>
+
+      {/* Distribution Chart */}
+      {distributionData && (
+        <Styled.DistributionSection>
+          <SolveTimeDistributionChart data={distributionData} avatarUrl={avatarUrl} />
+        </Styled.DistributionSection>
+      )}
 
       {/* BOJ Link */}
       <Styled.BojLink

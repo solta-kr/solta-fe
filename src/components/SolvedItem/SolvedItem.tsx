@@ -9,7 +9,7 @@ interface SolvedItemProps {
   solved: RecentSolvedResponse;
   showSolveType?: boolean;
   showDate?: boolean;
-  onProblemClick?: (bojProblemId: number) => void;
+  onProblemClick?: (bojProblemId: number, solveTimeSeconds: number | null) => void;
 }
 
 function formatDate(dateString?: string): string {
@@ -34,7 +34,7 @@ export function SolvedItem({ solved, showSolveType = false, showDate = false, on
 
   const handleClick = () => {
     if (onProblemClick) {
-      onProblemClick(solved.problem.bojProblemId);
+      onProblemClick(solved.problem.bojProblemId, solved.solveTimeSeconds);
     } else {
       const id = solved.problem.bojProblemId;
       navigate(`/problems?q=${id}&select=${id}`);

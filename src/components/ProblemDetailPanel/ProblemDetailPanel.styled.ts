@@ -216,6 +216,12 @@ export const EmptySubtext = styled.p`
   margin: 0;
 `;
 
+// Distribution chart
+export const DistributionSection = styled.div`
+  margin-top: ${({ theme }) => theme.spacing(4)};
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
+`;
+
 // BOJ link
 export const BojLink = styled.a`
   display: flex;
