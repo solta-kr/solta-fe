@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import { Clock, BarChart3, Search, RotateCcw, TrendingUp, Zap, Chrome, Play, CheckCircle, Save, LineChart } from "lucide-react";
+import { Clock, BarChart3, Search, RotateCcw, TrendingUp, Zap, Chrome, Play, CheckCircle, Save, LineChart, ChevronDown } from "lucide-react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -74,6 +73,28 @@ const CTAButton = styled.button<{ $primary?: boolean }>`
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  border: 1px solid ${({ theme, $primary }) => $primary ? "transparent" : theme.colors.border};
+  background: ${({ theme, $primary }) => $primary ? theme.colors.primary : "transparent"};
+  color: ${({ theme, $primary }) => $primary ? "#fff" : theme.colors.text};
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: ${({ theme }) => theme.shadows.md};
+    background: ${({ theme, $primary }) => $primary ? theme.colors.primaryHover : theme.colors.bgTertiary};
+  }
+`;
+
+const CTALink = styled.a<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(2)};
+  padding: ${({ theme }) => theme.spacing(3.5)} ${({ theme }) => theme.spacing(6)};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
   border: 1px solid ${({ theme, $primary }) => $primary ? "transparent" : theme.colors.border};
   background: ${({ theme, $primary }) => $primary ? theme.colors.primary : "transparent"};
   color: ${({ theme, $primary }) => $primary ? "#fff" : theme.colors.text};
@@ -255,8 +276,12 @@ const StepConnector = styled.div`
   margin-left: 21px;
 `;
 
+const CHROME_EXTENSION_URL = "https://chromewebstore.google.com/detail/solta/ncfnchkjdgkjflhpolopadiapophnhfp";
+
 export function HomePage() {
-  const navigate = useNavigate();
+  const scrollToHowItWorks = () => {
+    document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <Container>
@@ -277,9 +302,13 @@ export function HomePage() {
           티어별 통계와 추이 분석으로 나만의 성장 곡선을 확인할 수 있어요.
         </Subtitle>
         <CTARow>
-          <CTAButton $primary onClick={() => navigate("/problems")}>
-            <Search size={18} />
-            문제 검색하기
+          <CTALink $primary href={CHROME_EXTENSION_URL} target="_blank" rel="noopener noreferrer">
+            <Chrome size={18} />
+            크롬 익스텐션 설치하기
+          </CTALink>
+          <CTAButton onClick={scrollToHowItWorks}>
+            <ChevronDown size={18} />
+            자세히 알아보기
           </CTAButton>
         </CTARow>
       </Hero>
@@ -350,7 +379,7 @@ export function HomePage() {
         </FeatureGrid>
       </FeaturesSection>
 
-      <StepsSection>
+      <StepsSection id="how-it-works">
         <StepsInner>
           <SectionLabel>How it works</SectionLabel>
           <SectionTitle>이렇게 사용해요</SectionTitle>
