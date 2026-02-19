@@ -146,7 +146,7 @@ export function Footer() {
             <ColumnTitle>도구</ColumnTitle>
             <ColumnList>
               <li>
-                <ExternalLink href="https://chromewebstore.google.com" target="_blank" rel="noopener noreferrer">
+                <ExternalLink href="https://chromewebstore.google.com/detail/solta/ncfnchkjdgkjflhpolopadiapophnhfp" target="_blank" rel="noopener noreferrer">
                   크롬 익스텐션
                 </ExternalLink>
               </li>
