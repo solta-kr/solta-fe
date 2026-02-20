@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import ProblemSearchPage from './pages/ProblemSearchPage';
 import AuthCallbackPage from './pages/AuthCallbackPage';
 import PrivacyPage from './pages/PrivacyPage';
+import BadgePreviewPage from './pages/BadgePreviewPage';
 
 function AppContent() {
 	const location = useLocation();
@@ -24,6 +25,7 @@ function AppContent() {
 				<Route path="/problems" element={<ProblemSearchPage />} />
 				<Route path="/login/success" element={<AuthCallbackPage />} />
 				<Route path="/privacy" element={<PrivacyPage />} />
+				<Route path="/badge" element={<BadgePreviewPage />} />
 			</Routes>
 			{!hideFooter && <Footer />}
 		</>

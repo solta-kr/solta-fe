@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, User, Github, LogOut, ChevronDown } from 'lucide-react';
+import { Search, User, Github, LogOut, ChevronDown, BadgeCheck } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { memberApi, problemApi, authApi } from '../api/api';
@@ -492,6 +492,10 @@ export function Header() {
 									<UserDropdownItem onClick={() => { navigate(`/profile/${user?.name}`); setIsUserMenuOpen(false); }}>
 										<User size={14} />
 										내 프로필
+									</UserDropdownItem>
+									<UserDropdownItem onClick={() => { navigate('/badge'); setIsUserMenuOpen(false); }}>
+										<BadgeCheck size={14} />
+										README 뱃지
 									</UserDropdownItem>
 									<UserDropdownItem onClick={handleLogout}>
 										<LogOut size={14} />

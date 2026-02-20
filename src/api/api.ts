@@ -13,6 +13,7 @@ import type {
   AuthMeResponse,
   AuthCodeResponse,
   SolveTimeDistributionResponse,
+  BadgeStatsResponse,
 } from "../types/api";
 import type { SolvedPeriod, TierGroup } from "../types/types";
 
@@ -143,6 +144,11 @@ export const bojApi = {
   async verify(shareUrl: string): Promise<void> {
     await api.post("/boj/verify", { shareUrl });
   },
+};
+
+export const badgeApi = {
+  getBadgeStats: (username: string): Promise<BadgeStatsResponse> =>
+    api.get<BadgeStatsResponse>(`/badges/${username}/stats`).then((r) => r.data),
 };
 
 export const problemApi = {
