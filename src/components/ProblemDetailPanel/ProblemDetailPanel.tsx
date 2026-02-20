@@ -1,9 +1,10 @@
-import { Clock, Users, Zap, Trophy, Target, BookOpen, ChevronRight } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { Clock, Users, Zap, Trophy, Target, BookOpen, ChevronRight, Pencil } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getTierGroupFromTier, TIER_GROUP_COLORS, hslToRgb } from "../../constants/tierColors";
 import formatSeconds from "../../utils/formatSeconds";
 import type { ProblemDetailResponse } from "../../types/api";
-import { problemApi } from "../../api/api";
+import { problemApi, solvedApi } from "../../api/api";
 import { trackEvent } from "../../utils/gtag";
 import { SolveTimeDistributionChart } from "../SolveTimeDistributionChart/SolveTimeDistributionChart";
 import * as Styled from "./ProblemDetailPanel.styled";
@@ -12,9 +13,34 @@ interface ProblemDetailPanelProps {
   detail: ProblemDetailResponse;
   solveTimeSeconds?: number | null;
   avatarUrl?: string;
+  solvedId?: number;
+  memo?: string | null;
+  isOwner?: boolean;
 }
 
-export function ProblemDetailPanel({ detail, solveTimeSeconds, avatarUrl }: ProblemDetailPanelProps) {
+export function ProblemDetailPanel({ detail, solveTimeSeconds, avatarUrl, solvedId, memo, isOwner = false }: ProblemDetailPanelProps) {
+  const queryClient = useQueryClient();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(memo ?? "");
+
+  const memoMutation = useMutation({
+    mutationFn: (newMemo: string | null) => solvedApi.updateMemo(solvedId!, newMemo),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["solved", "recentSolveds"] });
+      setIsEditing(false);
+    },
+  });
+
+  const handleSave = () => {
+    const trimmed = editValue.trim();
+    memoMutation.mutate(trimmed === "" ? null : trimmed);
+  };
+
+  const handleCancel = () => {
+    setEditValue(memo ?? "");
+    setIsEditing(false);
+  };
+
   const {
     bojProblemId,
     title,
@@ -101,6 +127,54 @@ export function ProblemDetailPanel({ detail, solveTimeSeconds, avatarUrl }: Prob
           ))}
         </Styled.TagList>
       </Styled.TagSection>
+
+      {/* Memo Section */}
+      {solvedId != null && (
+        <Styled.MemoSection>
+          <Styled.MemoHeader>
+            <Styled.SectionLabel style={{ margin: 0 }}>메모</Styled.SectionLabel>
+            {isOwner && !isEditing && (
+              <Styled.MemoEditButton
+                onClick={() => { setEditValue(memo ?? ""); setIsEditing(true); }}
+                title={memo ? "메모 수정" : "메모 추가"}
+              >
+                <Pencil size={13} />
+                {memo ? "수정" : "추가"}
+              </Styled.MemoEditButton>
+            )}
+          </Styled.MemoHeader>
+
+          {isEditing ? (
+            <>
+              <Styled.MemoTextarea
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                placeholder="풀이 메모를 남겨보세요..."
+                rows={4}
+                autoFocus
+              />
+              <Styled.MemoEditActions>
+                <Styled.MemoSaveButton
+                  type="button"
+                  onClick={handleSave}
+                  disabled={memoMutation.isPending}
+                >
+                  {memoMutation.isPending ? "저장 중..." : "저장"}
+                </Styled.MemoSaveButton>
+                <Styled.MemoCancelButton type="button" onClick={handleCancel}>
+                  취소
+                </Styled.MemoCancelButton>
+              </Styled.MemoEditActions>
+            </>
+          ) : memo ? (
+            <Styled.MemoText>{memo}</Styled.MemoText>
+          ) : (
+            <Styled.MemoEmpty>
+              {isOwner ? "추가 버튼을 눌러 메모를 남겨보세요." : "메모가 없습니다."}
+            </Styled.MemoEmpty>
+          )}
+        </Styled.MemoSection>
+      )}
 
       {/* Recommendation (프로필에서 풀이 기록 클릭 시 숨김) */}
       {solveTimeSeconds == null && (

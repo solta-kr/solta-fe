@@ -68,6 +68,104 @@ export const Tag = styled.span`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
+// Memo
+export const MemoSection = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing(6)};
+  padding: ${({ theme }) => theme.spacing(4)};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: ${({ theme }) => theme.colors.bgTertiary};
+`;
+
+export const MemoHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: ${({ theme }) => theme.spacing(3)};
+`;
+
+export const MemoEditButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+export const MemoText = styled.p`
+  margin: 0;
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+`;
+
+export const MemoEmpty = styled.p`
+  margin: 0;
+  font-size: 0.875rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-style: italic;
+`;
+
+export const MemoTextarea = styled.textarea`
+  width: 100%;
+  background: ${({ theme }) => theme.colors.bg};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.875rem;
+  padding: ${({ theme }) => theme.spacing(3)};
+  resize: vertical;
+  line-height: 1.6;
+  font-family: inherit;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+export const MemoEditActions = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(2)};
+  margin-top: ${({ theme }) => theme.spacing(2)};
+`;
+
+export const MemoSaveButton = styled.button`
+  background: ${({ theme }) => theme.colors.primary};
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 6px 16px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+export const MemoCancelButton = styled.button`
+  background: transparent;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 6px;
+  font-size: 0.8rem;
+  padding: 6px 16px;
+  cursor: pointer;
+`;
+
 // Recommendation
 export const RecommendBox = styled.div<{ $color: string }>`
   padding: ${({ theme }) => theme.spacing(4)};
