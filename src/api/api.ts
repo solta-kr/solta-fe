@@ -99,6 +99,10 @@ export const solvedApi = {
     );
     return response.data;
   },
+
+  async updateMemo(solvedId: number, memo: string | null): Promise<void> {
+    await api.patch(`/solveds/${solvedId}/memo`, { memo });
+  },
 };
 
 export const memberApi = {

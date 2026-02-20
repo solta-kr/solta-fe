@@ -15,6 +15,7 @@ export interface RecentSolvedResponse {
   solvedId: number;
   solveType: SolveType;
   solveTimeSeconds: number | null;
+  memo: string | null;
   problem: ProblemDetail;
   createdAt: string;
 }

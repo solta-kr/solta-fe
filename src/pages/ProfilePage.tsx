@@ -208,7 +208,14 @@ export function ProfilePage() {
           {isDetailLoading ? (
             <Styled.DrawerLoading>불러오는 중...</Styled.DrawerLoading>
           ) : detail ? (
-            <ProblemDetailPanel detail={detail} solveTimeSeconds={selectedSolveTimeSeconds} avatarUrl={profile?.avatarUrl} />
+            <ProblemDetailPanel
+                detail={detail}
+                solveTimeSeconds={selectedSolveTimeSeconds}
+                avatarUrl={profile?.avatarUrl}
+                solvedId={solveds.find(s => s.problem.bojProblemId === selectedBojId)?.solvedId}
+                memo={solveds.find(s => s.problem.bojProblemId === selectedBojId)?.memo}
+                isOwner={isMyProfile}
+              />
           ) : null}
         </Styled.DrawerBody>
       </Styled.DrawerPanel>
