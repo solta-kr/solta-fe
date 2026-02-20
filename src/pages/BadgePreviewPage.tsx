@@ -144,7 +144,7 @@ export function BadgePreviewPage() {
 		enabled: !!user?.name,
 	});
 
-	const markdown = `[![Solta Stats](https://solta.kr/api/badges/${name})](https://solta.kr/profile/${name})`;
+	const markdown = `[![Solta Stats](https://prod.solta.kr/api/badges/${name})](https://solta.kr/profile/${name})`;
 
 	const handleCopy = () => {
 		navigator.clipboard.writeText(markdown).then(() => {
@@ -187,7 +187,7 @@ export function BadgePreviewPage() {
 					</div>
 					<CodeBlock>
 						<em>{'[![Solta Stats]'}</em>
-						{`(https://solta.kr/api/badges/${name})`}
+						{`(https://prod.solta.kr/api/badges/${name})`}
 						<em>{'](https://solta.kr/profile/'}</em>
 						{name}
 						<em>{')'}</em>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { SolvedList } from "../components/SolvedList/SolvedList";
 import { SolveTrendsChart } from "../components/SolveTrendsChart/SolveTrendsChart";
@@ -7,7 +7,7 @@ import { RetryListCard } from "../components/RetryListCard/RetryListCard";
 import { TierStatsChart } from "../components/TierStatsChart/TierStatsChart";
 import { ProblemDetailPanel } from "../components/ProblemDetailPanel/ProblemDetailPanel";
 import { BojLinkModal } from "../components/BojLinkModal/BojLinkModal";
-import { Trophy, Clock, Target, X, Link as LinkIcon } from "lucide-react";
+import { Trophy, Clock, Target, X, Link as LinkIcon, BadgeCheck } from "lucide-react";
 import { solvedQueryOptions } from "../api/queries/solved";
 import { problemApi } from "../api/api";
 import formatSeconds from "../utils/formatSeconds";
@@ -17,6 +17,7 @@ import * as Styled from "./ProfilePage.styled";
 
 export function ProfilePage() {
   const { username } = useParams<{ username: string }>();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<"recent" | "stats" | "retry">("recent");
   const [selectedBojId, setSelectedBojId] = useState<number | null>(null);
@@ -112,11 +113,19 @@ export function ProfilePage() {
                   </Styled.BojIdRow>
                 </Styled.UserStats>
               )}
-              {needsBojLink && (
-                <Styled.BojLinkButton onClick={() => setShowBojModal(true)}>
-                  <LinkIcon size={14} />
-                  백준 ID 연결하기
-                </Styled.BojLinkButton>
+              {isMyProfile && (
+                <Styled.ProfileActionsRow>
+                  {needsBojLink && (
+                    <Styled.BojLinkButton onClick={() => setShowBojModal(true)}>
+                      <LinkIcon size={14} />
+                      백준 ID 연결하기
+                    </Styled.BojLinkButton>
+                  )}
+                  <Styled.BadgeLinkButton onClick={() => navigate('/badge')}>
+                    <BadgeCheck size={14} />
+                    내 배지 확인하기
+                  </Styled.BadgeLinkButton>
+                </Styled.ProfileActionsRow>
               )}
             </Styled.UserDetails>
           </Styled.UserInfo>

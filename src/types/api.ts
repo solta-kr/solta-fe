@@ -135,7 +135,7 @@ export interface BojVerifyRequest {
   shareUrl: string;
 }
 
-// 뱃지 관련 타입
+// 배지 관련 타입
 export interface BadgeTierDataItem {
   label: string;
   avgMinutes: number;

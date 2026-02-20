@@ -116,7 +116,6 @@ export const BojLinkButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing(1)};
-  margin-top: ${({ theme }) => theme.spacing(2)};
   padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
   background: ${({ theme }) => theme.colors.primaryLight};
   border: 1px solid ${({ theme }) => theme.colors.primary};
@@ -130,6 +129,33 @@ export const BojLinkButton = styled.button`
   &:hover {
     background: ${({ theme }) => theme.colors.primary};
     color: #fff;
+  }
+`;
+
+export const ProfileActionsRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(2)};
+  margin-top: ${({ theme }) => theme.spacing(2)};
+`;
+
+export const BadgeLinkButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(1)};
+  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
+  background: rgba(255, 154, 118, 0.08);
+  border: 1px solid rgba(255, 154, 118, 0.4);
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  color: #FF9A76;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 154, 118, 0.18);
+    border-color: #FF9A76;
   }
 `;
 

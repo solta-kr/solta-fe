@@ -495,7 +495,7 @@ export function Header() {
 									</UserDropdownItem>
 									<UserDropdownItem onClick={() => { navigate('/badge'); setIsUserMenuOpen(false); }}>
 										<BadgeCheck size={14} />
-										README 뱃지
+										README 배지
 									</UserDropdownItem>
 									<UserDropdownItem onClick={handleLogout}>
 										<LogOut size={14} />
