@@ -135,6 +135,21 @@ export interface BojVerifyRequest {
   shareUrl: string;
 }
 
+// 배지 관련 타입
+export interface BadgeTierDataItem {
+  label: string;
+  avgMinutes: number;
+  color: string;
+}
+
+export interface BadgeStatsResponse {
+  username: string;
+  totalMinutes: number;
+  avgMinutes: number;
+  selfSolveRate: number;
+  tierData: BadgeTierDataItem[];
+}
+
 // 풀이 시간 분포 관련 타입
 export interface DistributionBucket {
   rangeStart: number;
