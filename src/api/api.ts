@@ -14,6 +14,7 @@ import type {
   AuthCodeResponse,
   SolveTimeDistributionResponse,
   BadgeStatsResponse,
+  ActivityHeatmapResponse,
 } from "../types/api";
 import type { SolvedPeriod, TierGroup } from "../types/types";
 
@@ -149,6 +150,20 @@ export const bojApi = {
 export const badgeApi = {
   getBadgeStats: (username: string): Promise<BadgeStatsResponse> =>
     api.get<BadgeStatsResponse>(`/badges/${username}/stats`).then((r) => r.data),
+};
+
+export const activityApi = {
+  async getActivityHeatmap(
+    name: string,
+    startDate: string,
+    endDate: string
+  ): Promise<ActivityHeatmapResponse> {
+    const response = await api.get<ActivityHeatmapResponse>(
+      "/members/activity/heatmap/search",
+      { params: { name, startDate, endDate } }
+    );
+    return response.data;
+  },
 };
 
 export const problemApi = {

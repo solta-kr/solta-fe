@@ -10,13 +10,21 @@ export const ProfileContainer = styled.div`
 
 export const UserSection = styled.div`
   max-width: 1200px;
-  margin: 0 auto;
-  background: ${({ theme }) => theme.colors.bgSecondary};
+  margin: 0 auto ${({ theme }) => theme.spacing(4)} auto;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing(6)};
-  box-shadow: ${({ theme }) => theme.shadows.md};
+  background: ${({ theme }) => theme.colors.bgSecondary};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  margin-bottom: ${({ theme }) => theme.spacing(4)};
+  box-shadow: ${({ theme }) => theme.shadows.md};
+  overflow: hidden;
+`;
+
+export const UserSectionTop = styled.div`
+  padding: ${({ theme }) => theme.spacing(6)};
+`;
+
+export const UserCardDivider = styled.div`
+  height: 1px;
+  background: ${({ theme }) => theme.colors.border};
 `;
 
 export const UserInfo = styled.div`
@@ -159,40 +167,10 @@ export const BadgeLinkButton = styled.button`
   }
 `;
 
-export const StatsCards = styled.div`
+
+export const HeatmapSection = styled.div`
   max-width: 1200px;
   margin: 0 auto ${({ theme }) => theme.spacing(4)} auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: ${({ theme }) => theme.spacing(4)};
-`;
-
-export const StatCard = styled.div`
-  background: ${({ theme }) => theme.colors.bgSecondary};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing(5)};
-  box-shadow: ${({ theme }) => theme.shadows.md};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  position: relative;
-`;
-
-export const StatCardTitle = styled.div`
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: ${({ theme }) => theme.spacing(3)};
-`;
-
-export const StatCardValue = styled.div`
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.text};
-`;
-
-export const StatCardIcon = styled.div`
-  position: absolute;
-  top: ${({ theme }) => theme.spacing(5)};
-  right: ${({ theme }) => theme.spacing(5)};
-  color: ${({ theme }) => theme.colors.textMuted};
 `;
 
 export const MainContent = styled.div`
