@@ -7,10 +7,13 @@ import { RetryListCard } from "../components/RetryListCard/RetryListCard";
 import { TierStatsChart } from "../components/TierStatsChart/TierStatsChart";
 import { ProblemDetailPanel } from "../components/ProblemDetailPanel/ProblemDetailPanel";
 import { BojLinkModal } from "../components/BojLinkModal/BojLinkModal";
-import { Trophy, Clock, Target, X, Link as LinkIcon, BadgeCheck } from "lucide-react";
+import { ActivityHeatmap } from "../components/ActivityHeatmap/ActivityHeatmap";
+import { WeekSummaryCard } from "../components/WeekSummaryCard/WeekSummaryCard";
+import { ProfileStatsCard } from "../components/ProfileStatsCard/ProfileStatsCard";
+import { X, Link as LinkIcon, BadgeCheck } from "lucide-react";
 import { solvedQueryOptions } from "../api/queries/solved";
+import { activityQueryOptions } from "../api/queries/activity";
 import { problemApi } from "../api/api";
-import formatSeconds from "../utils/formatSeconds";
 import { trackEvent } from "../utils/gtag";
 import { useAuth } from "../context/AuthContext";
 import * as Styled from "./ProfilePage.styled";
@@ -35,6 +38,15 @@ export function ProfilePage() {
     solvedQueryOptions.recentSolveds(username || "")
   );
 
+  const currentYear = new Date().getFullYear();
+  const { data: heatmapData } = useQuery(
+    activityQueryOptions.heatmap(
+      username || "",
+      `${currentYear}-01-01`,
+      `${currentYear}-12-31`
+    )
+  );
+
   const { data: detail, isLoading: isDetailLoading } = useQuery({
     queryKey: ["problemDetail", selectedBojId],
     queryFn: () => problemApi.getProblemDetail(selectedBojId!),
@@ -47,6 +59,8 @@ export function ProfilePage() {
   const totalSolved = profile?.solvedCount || 0;
   const totalTimeSeconds = profile?.totalSolvedTime || 0;
   const averageTimeSeconds = profile?.totalSolvedAverageTime || 0;
+  const currentStreak = heatmapData?.currentStreak ?? 0;
+  const longestStreak = heatmapData?.longestStreak ?? 0;
 
   const handleProblemClick = (bojProblemId: number, solveTimeSeconds: number | null) => {
     trackEvent('view_problem_detail', { problem_id: bojProblemId, source: 'profile' });
@@ -89,75 +103,63 @@ export function ProfilePage() {
     <>
       <Styled.ProfileContainer>
         <Styled.UserSection>
-          <Styled.UserInfo>
-            <Styled.UserIcon src={profile?.avatarUrl} />
-            <Styled.UserDetails>
-              <Styled.UserHeader>
-                <Styled.UserId>{username}</Styled.UserId>
-              </Styled.UserHeader>
-              {profile?.bojId && (
-                <Styled.UserStats>
-                  <Styled.BojIdRow>
-                    <span>백준 ID: <Styled.BojProfileLink href={`https://www.acmicpc.net/user/${profile.bojId}`} target="_blank" rel="noopener noreferrer">{profile.bojId}</Styled.BojProfileLink></span>
-                    <Styled.SolvedAcLink
-                      href={`https://solved.ac/profile/${profile.bojId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Styled.SolvedAcIcon viewBox="0 0 100 60" width={20} height={12}>
-                        <rect x="0" y="0" width="100" height="60" rx="12" fill="#17ce3a" />
-                        <text x="50" y="43" textAnchor="middle" fill="#fff" fontSize="36" fontWeight="800" fontFamily="Arial, sans-serif">AC</text>
-                      </Styled.SolvedAcIcon>
-                      solved.ac
-                    </Styled.SolvedAcLink>
-                  </Styled.BojIdRow>
-                </Styled.UserStats>
-              )}
-              {isMyProfile && (
-                <Styled.ProfileActionsRow>
-                  {needsBojLink && (
-                    <Styled.BojLinkButton onClick={() => setShowBojModal(true)}>
-                      <LinkIcon size={14} />
-                      백준 ID 연결하기
-                    </Styled.BojLinkButton>
-                  )}
-                  <Styled.BadgeLinkButton onClick={() => navigate('/badge')}>
-                    <BadgeCheck size={14} />
-                    내 배지 확인하기
-                  </Styled.BadgeLinkButton>
-                </Styled.ProfileActionsRow>
-              )}
-            </Styled.UserDetails>
-          </Styled.UserInfo>
+          <Styled.UserSectionTop>
+            <Styled.UserInfo>
+              <Styled.UserIcon src={profile?.avatarUrl} />
+              <Styled.UserDetails>
+                <Styled.UserHeader>
+                  <Styled.UserId>{username}</Styled.UserId>
+                </Styled.UserHeader>
+                {profile?.bojId && (
+                  <Styled.UserStats>
+                    <Styled.BojIdRow>
+                      <span>백준 ID: <Styled.BojProfileLink href={`https://www.acmicpc.net/user/${profile.bojId}`} target="_blank" rel="noopener noreferrer">{profile.bojId}</Styled.BojProfileLink></span>
+                      <Styled.SolvedAcLink
+                        href={`https://solved.ac/profile/${profile.bojId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Styled.SolvedAcIcon viewBox="0 0 100 60" width={20} height={12}>
+                          <rect x="0" y="0" width="100" height="60" rx="12" fill="#17ce3a" />
+                          <text x="50" y="43" textAnchor="middle" fill="#fff" fontSize="36" fontWeight="800" fontFamily="Arial, sans-serif">AC</text>
+                        </Styled.SolvedAcIcon>
+                        solved.ac
+                      </Styled.SolvedAcLink>
+                    </Styled.BojIdRow>
+                  </Styled.UserStats>
+                )}
+                {isMyProfile && (
+                  <Styled.ProfileActionsRow>
+                    {needsBojLink && (
+                      <Styled.BojLinkButton onClick={() => setShowBojModal(true)}>
+                        <LinkIcon size={14} />
+                        백준 ID 연결하기
+                      </Styled.BojLinkButton>
+                    )}
+                    <Styled.BadgeLinkButton onClick={() => navigate('/badge')}>
+                      <BadgeCheck size={14} />
+                      내 배지 확인하기
+                    </Styled.BadgeLinkButton>
+                  </Styled.ProfileActionsRow>
+                )}
+              </Styled.UserDetails>
+            </Styled.UserInfo>
+          </Styled.UserSectionTop>
+
+          <Styled.UserCardDivider />
+
+          <ProfileStatsCard
+            totalSolved={totalSolved}
+            totalTimeSeconds={totalTimeSeconds}
+            averageTimeSeconds={averageTimeSeconds}
+            currentStreak={currentStreak}
+            longestStreak={longestStreak}
+          />
         </Styled.UserSection>
 
-        <Styled.StatsCards>
-          <Styled.StatCard>
-            <Styled.StatCardIcon>
-              <Trophy size={20} />
-            </Styled.StatCardIcon>
-            <Styled.StatCardTitle>시간기록한 문제 수</Styled.StatCardTitle>
-            <Styled.StatCardValue>{totalSolved}개</Styled.StatCardValue>
-          </Styled.StatCard>
-          <Styled.StatCard>
-            <Styled.StatCardIcon>
-              <Clock size={20} />
-            </Styled.StatCardIcon>
-            <Styled.StatCardTitle>총 풀이 시간</Styled.StatCardTitle>
-            <Styled.StatCardValue>
-              {formatSeconds(totalTimeSeconds)}
-            </Styled.StatCardValue>
-          </Styled.StatCard>
-          <Styled.StatCard>
-            <Styled.StatCardIcon>
-              <Target size={20} />
-            </Styled.StatCardIcon>
-            <Styled.StatCardTitle>전체 문제 평균 시간</Styled.StatCardTitle>
-            <Styled.StatCardValue>
-              {formatSeconds(averageTimeSeconds)}
-            </Styled.StatCardValue>
-          </Styled.StatCard>
-        </Styled.StatsCards>
+        <Styled.HeatmapSection>
+          {username && <ActivityHeatmap username={username} />}
+        </Styled.HeatmapSection>
 
         <Styled.TabSection>
           <Styled.TabHeader>
@@ -189,6 +191,7 @@ export function ProfilePage() {
             )}
             {activeTab === "stats" && (
               <>
+                {username && <WeekSummaryCard username={username} />}
                 {username && (
                   <Styled.FullWidthSection>
                     <TierStatsChart memberName={username} />

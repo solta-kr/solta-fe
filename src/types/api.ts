@@ -150,6 +150,20 @@ export interface BadgeStatsResponse {
   tierData: BadgeTierDataItem[];
 }
 
+// 활동 히트맵 관련 타입
+export interface ActivityData {
+  date: string;
+  count: number;
+  totalSeconds: number;
+  independentCount: number;
+}
+
+export interface ActivityHeatmapResponse {
+  activities: ActivityData[];
+  currentStreak: number;
+  longestStreak: number;
+}
+
 // 풀이 시간 분포 관련 타입
 export interface DistributionBucket {
   rangeStart: number;
