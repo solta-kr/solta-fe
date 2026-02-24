@@ -241,6 +241,13 @@ export function ProblemDetailPanel({ detail, solveTimeSeconds, avatarUrl, solved
                 </Styled.TimeItem>
               </Styled.TimeGrid>
             </Styled.StatCard>
+
+            {/* Distribution Chart */}
+            {distributionData && (
+              <Styled.DistributionSection>
+                <SolveTimeDistributionChart data={distributionData} avatarUrl={avatarUrl} />
+              </Styled.DistributionSection>
+            )}
           </>
         ) : (
           <Styled.EmptyState>
@@ -254,13 +261,6 @@ export function ProblemDetailPanel({ detail, solveTimeSeconds, avatarUrl, solved
           </Styled.EmptyState>
         )}
       </Styled.StatsSection>
-
-      {/* Distribution Chart */}
-      {distributionData && (
-        <Styled.DistributionSection>
-          <SolveTimeDistributionChart data={distributionData} avatarUrl={avatarUrl} />
-        </Styled.DistributionSection>
-      )}
 
       {/* BOJ Link */}
       <Styled.BojLink

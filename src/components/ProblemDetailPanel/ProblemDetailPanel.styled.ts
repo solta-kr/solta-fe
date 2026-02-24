@@ -316,7 +316,6 @@ export const EmptySubtext = styled.p`
 
 // Distribution chart
 export const DistributionSection = styled.div`
-  margin-top: ${({ theme }) => theme.spacing(4)};
   margin-bottom: ${({ theme }) => theme.spacing(2)};
 `;
 
