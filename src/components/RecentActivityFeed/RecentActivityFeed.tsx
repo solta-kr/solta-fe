@@ -12,7 +12,6 @@ function formatRelativeTime(dateString: string): string {
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
   const diffMin = Math.floor(diffMs / (1000 * 60));
-  const diffHour = Math.floor(diffMs / (1000 * 60 * 60));
   const diffDay = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   if (diffMin < 1) return '방금';
