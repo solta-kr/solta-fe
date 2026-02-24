@@ -7,7 +7,7 @@ import * as Styled from './ActivityHeatmap.styled';
 // 풀이 시간 많을수록 진해지는 파란색 계열 (밝은 → 어두운)
 const HEATMAP_COLORS = ['#2a2a2a', '#7bbcf7', '#4a96e8', '#2a6acf', '#1a4fa8'] as const;
 const MONTH_ABBRS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const DAY_LABELS: [string, number][] = [['Mon', 0], ['Wed', 2], ['Fri', 4]];
+const DAY_LABELS: [string, number][] = [['Mon', 1], ['Wed', 3], ['Fri', 5]];
 const CURRENT_YEAR = new Date().getFullYear();
 const CELL = 11;
 const GAP = 2;
@@ -46,7 +46,7 @@ function getDateRange(period: Period): { startDate: string; endDate: string } {
 function generateWeeks(startStr: string, endStr: string): (string | null)[][] {
   const start = new Date(startStr + 'T00:00:00');
   const end = new Date(endStr + 'T00:00:00');
-  const rowOf = (jsDay: number) => (jsDay + 6) % 7;
+  const rowOf = (jsDay: number) => jsDay;
 
   const cur = new Date(start);
   cur.setDate(start.getDate() - rowOf(start.getDay()));
@@ -206,19 +206,17 @@ export function ActivityHeatmap({ username }: Props) {
                   rx={2}
                   fill={HEATMAP_COLORS[level]}
                   style={{ cursor: 'pointer' }}
-                  onMouseEnter={e =>
+                  onMouseEnter={e => {
+                    const cell = (e.currentTarget as SVGRectElement).getBoundingClientRect();
                     setTooltip({
-                      x: e.clientX,
-                      y: e.clientY,
+                      x: cell.left + cell.width / 2,
+                      y: cell.top,
                       date: dateStr,
                       count: activity?.count ?? 0,
                       totalSeconds: activity?.totalSeconds ?? 0,
                       independentCount: activity?.independentCount ?? 0,
-                    })
-                  }
-                  onMouseMove={e =>
-                    setTooltip(prev => prev ? { ...prev, x: e.clientX, y: e.clientY } : null)
-                  }
+                    });
+                  }}
                   onMouseLeave={() => setTooltip(null)}
                 />
               );
@@ -227,7 +225,11 @@ export function ActivityHeatmap({ username }: Props) {
         </svg>
 
         {tooltip && (
-          <Styled.Tooltip style={{ left: tooltip.x + 14, top: tooltip.y - 52 }}>
+          <Styled.Tooltip style={{
+            left: Math.min(Math.max(tooltip.x, 100), window.innerWidth - 100),
+            top: tooltip.y - 60,
+            transform: 'translateX(-50%)',
+          }}>
             <Styled.TooltipDate>{formatDateLabel(tooltip.date)}</Styled.TooltipDate>
             {tooltip.count > 0 ? (
               <Styled.TooltipStats>
