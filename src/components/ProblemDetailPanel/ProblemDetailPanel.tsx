@@ -129,7 +129,7 @@ export function ProblemDetailPanel({ detail, solveTimeSeconds, avatarUrl, solved
       </Styled.TagSection>
 
       {/* Memo Section */}
-      {solvedId != null && (
+      {solvedId != null && isOwner && (
         <Styled.MemoSection>
           <Styled.MemoHeader>
             <Styled.SectionLabel style={{ margin: 0 }}>메모</Styled.SectionLabel>
