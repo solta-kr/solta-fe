@@ -15,6 +15,7 @@ import type {
   SolveTimeDistributionResponse,
   BadgeStatsResponse,
   ActivityHeatmapResponse,
+  FeedResponse,
 } from "../types/api";
 import type { SolvedPeriod, TierGroup } from "../types/types";
 
@@ -164,6 +165,11 @@ export const activityApi = {
     );
     return response.data;
   },
+};
+
+export const feedApi = {
+  getRecentFeed: () =>
+    api.get<FeedResponse>('/feed/recent').then((r) => r.data),
 };
 
 export const problemApi = {
