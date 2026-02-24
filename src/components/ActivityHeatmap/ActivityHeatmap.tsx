@@ -72,8 +72,9 @@ function getMonthLabel(week: (string | null)[]): string {
   return '';
 }
 
-function getLevel(totalSeconds: number): number {
-  if (totalSeconds === 0) return 0;
+function getLevel(totalSeconds: number, count: number): number {
+  if (count === 0) return 0;
+  if (totalSeconds === 0) return 1;
   if (totalSeconds <= 1800) return 1;
   if (totalSeconds <= 3600) return 2;
   if (totalSeconds <= 7200) return 3;
@@ -195,7 +196,7 @@ export function ActivityHeatmap({ username }: Props) {
             week.map((dateStr, rowIdx) => {
               if (!dateStr) return null;
               const activity = activityMap.get(dateStr);
-              const level = activity ? getLevel(activity.totalSeconds) : 0;
+              const level = activity ? getLevel(activity.totalSeconds, activity.count) : 0;
               return (
                 <rect
                   key={`${colIdx}-${rowIdx}`}
