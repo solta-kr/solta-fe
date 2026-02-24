@@ -1,5 +1,6 @@
 import { Clock, BarChart3, Search, RotateCcw, TrendingUp, Zap, Chrome, Play, CheckCircle, Save, LineChart, ChevronDown } from "lucide-react";
 import styled from "styled-components";
+import { RecentActivityFeed } from "../components/RecentActivityFeed/RecentActivityFeed";
 
 const Container = styled.div`
   width: 100%;
@@ -110,7 +111,7 @@ const CTALink = styled.a<{ $primary?: boolean }>`
 const FeaturesSection = styled.section`
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 ${({ theme }) => theme.spacing(6)} ${({ theme }) => theme.spacing(16)};
+  padding: ${({ theme }) => theme.spacing(14)} ${({ theme }) => theme.spacing(6)} ${({ theme }) => theme.spacing(16)};
 `;
 
 const SectionLabel = styled.p`
@@ -312,6 +313,8 @@ export function HomePage() {
           </CTAButton>
         </CTARow>
       </Hero>
+
+      <RecentActivityFeed />
 
       <FeaturesSection>
         <SectionLabel>Features</SectionLabel>

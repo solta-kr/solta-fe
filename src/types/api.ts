@@ -185,3 +185,26 @@ export interface SolveTimeDistributionResponse {
   distribution: DistributionBucket[];
   myPosition: MyPosition;
 }
+
+// Feed
+export interface FeedStatsResponse {
+  periodLabel: string;
+  activeUserCount: number;
+  totalSolveCount: number;
+}
+
+export interface FeedItemResponse {
+  memberName: string;
+  memberAvatarUrl: string;
+  problemBojId: number;
+  problemTitle: string;
+  problemTier: string | null;
+  solveType: 'SELF' | 'SOLUTION';
+  solveTimeSeconds: number | null;
+  solvedAt: string;
+}
+
+export interface FeedResponse {
+  stats: FeedStatsResponse;
+  recentFeeds: FeedItemResponse[];
+}
