@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { feedQueryOptions } from '../../api/queries/feed';
-import { getTierGroupFromTier, TIER_GROUP_COLORS, hslToRgb } from '../../constants/tierColors';
-import type { Tier } from '../../types/types';
 import type { FeedItemResponse } from '../../types/api';
 import * as S from './RecentActivityFeed.styled';
 
@@ -33,11 +31,6 @@ function FeedRow({
   feed: FeedItemResponse;
   onNavigate: (name: string) => void;
 }) {
-  const tierGroup = feed.problemTier
-    ? getTierGroupFromTier(feed.problemTier as Tier)
-    : 'NONE';
-  const tierColor = hslToRgb(TIER_GROUP_COLORS[tierGroup]);
-
   return (
     <S.Row onClick={() => onNavigate(feed.memberName)}>
       <S.Avatar src={feed.memberAvatarUrl} alt={feed.memberName} />
@@ -45,7 +38,6 @@ function FeedRow({
       <S.RowBody>
         <S.RowLeft>
           <S.Username>@{feed.memberName}</S.Username>
-          <S.TierDot color={tierColor} />
           <S.ProblemText>
             {feed.problemBojId}번&nbsp;
             <S.ProblemName>{feed.problemTitle}</S.ProblemName>

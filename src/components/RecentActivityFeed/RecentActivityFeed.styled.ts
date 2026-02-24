@@ -151,14 +151,6 @@ export const Username = styled.span`
   white-space: nowrap;
 `;
 
-export const TierDot = styled.span<{ color: string }>`
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: ${({ color }) => color};
-  flex-shrink: 0;
-`;
-
 export const ProblemText = styled.span`
   font-size: 0.82rem;
   color: ${({ theme }) => theme.colors.textSecondary};
