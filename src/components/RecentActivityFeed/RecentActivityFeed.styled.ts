@@ -180,21 +180,6 @@ export const RowRight = styled.div`
   flex-shrink: 0;
 `;
 
-export const SolveTime = styled.span`
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  font-variant-numeric: tabular-nums;
-`;
-
-export const SolutionBadge = styled.span`
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: rgb(249, 115, 22);
-  background: rgba(249, 115, 22, 0.1);
-  padding: 2px 7px;
-  border-radius: 10px;
-`;
 
 export const When = styled.span`
   font-size: 0.75rem;

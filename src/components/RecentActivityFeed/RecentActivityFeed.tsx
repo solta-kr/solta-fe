@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { feedQueryOptions } from '../../api/queries/feed';
 import { getTierGroupFromTier, TIER_GROUP_COLORS, hslToRgb } from '../../constants/tierColors';
-import formatSeconds from '../../utils/formatSeconds';
 import type { Tier } from '../../types/types';
 import type { FeedItemResponse } from '../../types/api';
 import * as S from './RecentActivityFeed.styled';
@@ -50,17 +49,11 @@ function FeedRow({
           <S.ProblemText>
             {feed.problemBojId}번&nbsp;
             <S.ProblemName>{feed.problemTitle}</S.ProblemName>
+            &nbsp;문제를 풀었어요
           </S.ProblemText>
         </S.RowLeft>
 
         <S.RowRight>
-          {feed.solveType === 'SOLUTION' ? (
-            <S.SolutionBadge>답지 참고</S.SolutionBadge>
-          ) : (
-            feed.solveTimeSeconds != null && (
-              <S.SolveTime>{formatSeconds(feed.solveTimeSeconds)}</S.SolveTime>
-            )
-          )}
           <S.When>{formatRelativeTime(feed.solvedAt)}</S.When>
         </S.RowRight>
       </S.RowBody>
