@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Github, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
@@ -150,11 +150,6 @@ export function Footer() {
                   크롬 익스텐션
                 </ExternalLink>
               </li>
-              <li>
-                <ExternalLink href="https://github.com/solta-kr" target="_blank" rel="noopener noreferrer">
-                  GitHub
-                </ExternalLink>
-              </li>
             </ColumnList>
           </div>
         </TopSection>
@@ -170,9 +165,6 @@ export function Footer() {
           <SocialLinks>
             <SocialLink href="mailto:solta3413@gmail.com" aria-label="Email">
               <Mail size={20} />
-            </SocialLink>
-            <SocialLink href="https://github.com/solta-kr" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <Github size={20} />
             </SocialLink>
           </SocialLinks>
         </BottomSection>
