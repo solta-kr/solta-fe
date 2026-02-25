@@ -16,15 +16,18 @@ function formatDate(dateString?: string): string {
   if (!dateString) return "";
   const date = new Date(dateString);
   const now = new Date();
-  const diffTime = now.getTime() - date.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffMs / (1000 * 60));
+  const diffHour = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDay = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const diffYear = Math.floor(diffDay / 365);
 
-  if (diffDays === 0) return "오늘";
-  if (diffDays === 1) return "어제";
-  if (diffDays < 7) return `${diffDays}일 전`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`;
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)}개월 전`;
-  return `${Math.floor(diffDays / 365)}년 전`;
+  if (diffSec < 60) return `${diffSec}초 전`;
+  if (diffMin < 60) return `${diffMin}분 전`;
+  if (diffHour < 24) return `${diffHour}시간 전`;
+  if (diffDay < 365) return `${diffDay}일 전`;
+  return `${diffYear}년 전`;
 }
 
 export function SolvedItem({ solved, showSolveType = false, showDate = false, onProblemClick }: SolvedItemProps) {
