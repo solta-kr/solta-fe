@@ -13,6 +13,7 @@ import { solvedQueryOptions } from "../../api/queries/solved";
 import type { SolvedPeriod, TierGroup, TagKey } from "../../types/types";
 import { TIER_GROUP_COLORS } from "../../constants/tierColors";
 import { TrendingUp, TrendingDown, Minus, Clock, Brain } from "lucide-react";
+import formatSeconds from "../../utils/formatSeconds";
 import * as Styled from "./SolveTrendsChart.styled";
 
 type SolveTrendsChartProps = {
@@ -71,6 +72,7 @@ export function SolveTrendsChart({ memberName }: SolveTrendsChartProps) {
     if (!timeData?.trends) return [];
     return timeData.trends.map((point) => ({
       date: formatDate(point.date, selectedPeriod),
+      averageSeconds: point.averageSeconds,
       minutes: Math.round(point.averageSeconds / 60),
       solvedCount: point.solvedCount,
     }));
@@ -93,11 +95,12 @@ export function SolveTrendsChart({ memberName }: SolveTrendsChartProps) {
     });
   }, [ratioData, selectedPeriod]);
 
-  // Time statistics
-  const currentAverage = useMemo(() => {
-    if (timeChartData.length === 0) return 0;
-    const totalMinutes = timeChartData.reduce((sum, point) => sum + point.minutes, 0);
-    return Math.round(totalMinutes / timeChartData.length);
+  // Time statistics (weighted average by solvedCount, using raw seconds to avoid truncation)
+  const currentAverageSeconds = useMemo(() => {
+    const totalCount = timeChartData.reduce((sum, point) => sum + point.solvedCount, 0);
+    if (totalCount === 0) return 0;
+    const totalWeightedSeconds = timeChartData.reduce((sum, point) => sum + point.averageSeconds * point.solvedCount, 0);
+    return Math.round(totalWeightedSeconds / totalCount);
   }, [timeChartData]);
 
   const timeChange = useMemo(() => {
@@ -201,7 +204,7 @@ export function SolveTrendsChart({ memberName }: SolveTrendsChartProps) {
 
           <Styled.StatsRow>
             <Styled.StatItem>
-              <Styled.StatValue>{currentAverage}분</Styled.StatValue>
+              <Styled.StatValue>{formatSeconds(currentAverageSeconds)}</Styled.StatValue>
               <Styled.StatLabel>평균</Styled.StatLabel>
             </Styled.StatItem>
             <Styled.ChangeBadge change={timeChange}>

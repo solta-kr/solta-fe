@@ -21,6 +21,8 @@ import type { TierGroup, TagKey } from "../../types/types";
 type SubTier = {
   level: string;
   count: number;
+  selfCount: number;
+  rawAverageSeconds: number;
   minutes: number;
   seconds: number;
   independentRatio: number;
@@ -115,6 +117,8 @@ export function TierStatsChart({ memberName }: TierStatsChartProps) {
               .map(ta => ({
                 level: getTierDisplayName(ta.tier),
                 count: ta.solvedCount,
+                selfCount: ta.independentCount,
+                rawAverageSeconds: ta.averageSolvedSeconds || 0,
                 minutes: Math.floor((ta.averageSolvedSeconds || 0) / 60),
                 seconds: Math.floor((ta.averageSolvedSeconds || 0) % 60),
                 independentRatio: ta.independentCount > 0
@@ -154,16 +158,20 @@ export function TierStatsChart({ memberName }: TierStatsChartProps) {
   const chartData: Array<{
     name: string;
     averageTime: number;
+    rawAverageSeconds: number;
     tier: string;
     count: number;
+    selfCount: number;
     independentRatio: number;
   }> = selectedTier === "ALL"
     ? sortedStats.flatMap((tierGroup) =>
         tierGroup.subTiers.map((subTier) => ({
           name: subTier.level,
           averageTime: subTier.minutes * 60 + subTier.seconds,
+          rawAverageSeconds: subTier.rawAverageSeconds,
           tier: tierGroup.tier,
           count: subTier.count,
+          selfCount: subTier.selfCount,
           independentRatio: subTier.independentRatio,
         }))
       )
@@ -171,8 +179,10 @@ export function TierStatsChart({ memberName }: TierStatsChartProps) {
     ? selectedTierData.subTiers.map((subTier) => ({
         name: subTier.level,
         averageTime: subTier.minutes * 60 + subTier.seconds,
+        rawAverageSeconds: subTier.rawAverageSeconds,
         tier: selectedTierData.tier,
         count: subTier.count,
+        selfCount: subTier.selfCount,
         independentRatio: subTier.independentRatio,
       }))
     : [];
@@ -190,11 +200,12 @@ export function TierStatsChart({ memberName }: TierStatsChartProps) {
     ? Math.round((totalIndependentSolved / totalProblems) * 100)
     : 0;
 
-  // Calculate average time for selected tier (weighted by problem count)
-  const averageTime = chartData.length > 0
+  // Calculate average time for selected tier (weighted by SELF-solved count, using raw seconds to avoid floor truncation)
+  const totalSelfCount = chartData.reduce((sum, item) => sum + item.selfCount, 0);
+  const averageTime = totalSelfCount > 0
     ? Math.floor(
-        chartData.reduce((sum, item) => sum + item.averageTime * item.count, 0) /
-          chartData.reduce((sum, item) => sum + item.count, 0)
+        chartData.reduce((sum, item) => sum + item.rawAverageSeconds * item.selfCount, 0) /
+          totalSelfCount
       )
     : 0;
 

@@ -45,6 +45,7 @@ export function ProfileStatsCard({
             전체 문제 평균 시간
           </Styled.StatLabel>
           <Styled.StatValue>{formatSeconds(averageTimeSeconds)}</Styled.StatValue>
+          <Styled.StatSubValue>스스로 푼 문제 기준</Styled.StatSubValue>
         </Styled.StatItem>
 
         <Styled.Divider />
