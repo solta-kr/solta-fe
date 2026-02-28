@@ -186,6 +186,22 @@ export interface SolveTimeDistributionResponse {
   myPosition: MyPosition;
 }
 
+// 태그별 약점 분석
+export type WeaknessLevel = "HIGH" | "MEDIUM" | "LOW";
+
+export interface TagWeaknessItem {
+  key: string;
+  korName: string;
+  totalCount: number;
+  selfSolveRate: number;
+  avgSolveSeconds: number | null;
+  timeRatio: number | null;
+  weaknessScore: number;
+  weaknessLevel: WeaknessLevel;
+  confidence: number;
+  finalScore: number;
+}
+
 // Feed
 export interface FeedStatsResponse {
   periodLabel: string;
