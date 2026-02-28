@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { solvedQueryOptions } from "../../api/queries/solved";
 import type { TagWeaknessItem, WeaknessLevel } from "../../types/api";
 import * as Styled from "./TagWeaknessCard.styled";
