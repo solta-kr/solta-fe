@@ -10,159 +10,141 @@ const LEVEL_COLORS: Record<WeaknessLevel, string> = {
 export const Container = styled.div``;
 
 export const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.spacing(4)};
 `;
 
 export const Title = styled.h2`
-  margin: 0 0 ${({ theme }) => theme.spacing(1)} 0;
+  margin: 0;
   font-size: 1.25rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.text};
 `;
 
-export const Subtitle = styled.p`
-  margin: 0;
-  font-size: 0.8125rem;
+export const InfoTooltip = styled.div`
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #262626;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  padding: 12px 14px;
+  z-index: 200;
+  white-space: nowrap;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.8;
+  min-width: 280px;
+`;
+
+export const InfoButton = styled.button`
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 2px;
   color: ${({ theme }) => theme.colors.textMuted};
-  line-height: 1.5;
+  cursor: default;
+
+  &:hover ${InfoTooltip} {
+    display: block;
+  }
 `;
 
 export const List = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing(3)};
 `;
 
-export const Item = styled.div<{ level: WeaknessLevel }>`
-  padding: ${({ theme }) => theme.spacing(4)};
-  background: ${({ theme }) => theme.colors.bgSecondary};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-left: 3px solid ${({ level }) => LEVEL_COLORS[level]};
+export const Row = styled.div`
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(3)};
+  padding: ${({ theme }) => theme.spacing(3)} 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+export const Rank = styled.span`
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.textMuted};
+  text-align: right;
+`;
+
+export const RowMain = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing(3)};
+  gap: ${({ theme }) => theme.spacing(1)};
+  min-width: 0;
 `;
 
-export const ItemTop = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: ${({ theme }) => theme.spacing(3)};
-`;
-
-export const ItemLeft = styled.div`
+export const RowTop = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: ${({ theme }) => theme.spacing(2)};
-  flex-wrap: wrap;
 `;
 
 export const TagName = styled.span`
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
-export const LevelBadge = styled.span<{ level: WeaknessLevel }>`
-  font-size: 0.6875rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 99px;
-  color: ${({ level }) => LEVEL_COLORS[level]};
-  background: ${({ level }) => LEVEL_COLORS[level]}22;
-`;
-
-export const ScoreBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-shrink: 0;
-`;
-
-export const ScoreNumber = styled.span<{ level: WeaknessLevel }>`
-  font-size: 1.625rem;
-  font-weight: 800;
-  line-height: 1;
-  color: ${({ level }) => LEVEL_COLORS[level]};
-`;
-
-export const ScoreLabel = styled.span`
-  font-size: 0.625rem;
-  color: ${({ theme }) => theme.colors.textMuted};
-  margin-bottom: 2px;
-`;
-
-export const Stats = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing(2)};
-`;
-
-export const StatRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing(3)};
-`;
-
-export const StatLabel = styled.span`
-  width: 72px;
+export const TagMeta = styled.span`
   font-size: 0.75rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.textMuted};
+  white-space: nowrap;
   flex-shrink: 0;
 `;
 
 export const BarWrapper = styled.div`
-  flex: 1;
   height: 5px;
   background: ${({ theme }) => theme.colors.bgTertiary};
   border-radius: 3px;
   overflow: hidden;
 `;
 
-export const Bar = styled.div<{ width: number; color: string }>`
+export const Bar = styled.div<{ width: number; level: WeaknessLevel }>`
   height: 100%;
   width: ${({ width }) => width}%;
-  background: ${({ color }) => color};
+  background: ${({ level }) => LEVEL_COLORS[level]};
   border-radius: 3px;
-  transition: width 0.3s ease;
+  transition: width 0.4s ease;
 `;
 
-export const StatValue = styled.span`
-  font-size: 0.75rem;
-  color: ${({ theme }) => theme.colors.text};
-  white-space: nowrap;
-  min-width: 90px;
-  text-align: right;
-`;
-
-export const NoDataText = styled.span`
-  font-size: 0.75rem;
-  color: ${({ theme }) => theme.colors.textMuted};
-  min-width: 90px;
-  text-align: right;
-`;
-
-export const Footer = styled.div`
+export const RowRight = styled.div`
   display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing(3)};
-  padding-top: ${({ theme }) => theme.spacing(1)};
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
 `;
 
-export const FooterText = styled.span`
-  font-size: 0.75rem;
-  color: ${({ theme }) => theme.colors.textMuted};
+export const ScoreNumber = styled.span<{ level: WeaknessLevel }>`
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1;
+  color: ${({ level }) => LEVEL_COLORS[level]};
 `;
 
-export const LowDataText = styled.span`
-  font-size: 0.75rem;
-  color: #F59E0B;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  margin-left: auto;
+export const LevelBadge = styled.span<{ level: WeaknessLevel }>`
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: ${({ level }) => LEVEL_COLORS[level]};
 `;
 
 export const EmptyState = styled.div`
