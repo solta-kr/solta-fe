@@ -16,6 +16,7 @@ import type {
   BadgeStatsResponse,
   ActivityHeatmapResponse,
   FeedResponse,
+  TagWeaknessItem,
 } from "../types/api";
 import type { SolvedPeriod, TierGroup } from "../types/types";
 
@@ -105,6 +106,11 @@ export const solvedApi = {
 
   async updateMemo(solvedId: number, memo: string | null): Promise<void> {
     await api.patch(`/solveds/${solvedId}/memo`, { memo });
+  },
+
+  async getTagWeakness(name: string): Promise<TagWeaknessItem[]> {
+    const response = await api.get<TagWeaknessItem[]>(`/members/${name}/tag-weakness`);
+    return response.data;
   },
 };
 

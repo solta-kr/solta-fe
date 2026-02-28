@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { SolvedList } from "../components/SolvedList/SolvedList";
 import { SolveTrendsChart } from "../components/SolveTrendsChart/SolveTrendsChart";
+import { TagWeaknessCard } from "../components/TagWeaknessCard/TagWeaknessCard";
 import { RetryListCard } from "../components/RetryListCard/RetryListCard";
 import { TierStatsChart } from "../components/TierStatsChart/TierStatsChart";
 import { ProblemDetailPanel } from "../components/ProblemDetailPanel/ProblemDetailPanel";
@@ -198,6 +199,11 @@ export function ProfilePage() {
                   </Styled.FullWidthSection>
                 )}
                 {username && <SolveTrendsChart memberName={username} />}
+                {username && (
+                  <Styled.FullWidthSection>
+                    <TagWeaknessCard memberName={username} />
+                  </Styled.FullWidthSection>
+                )}
               </>
             )}
             {activeTab === "retry" && username && (
