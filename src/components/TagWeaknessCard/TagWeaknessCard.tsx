@@ -10,12 +10,14 @@ const LEVEL_LABEL: Record<WeaknessLevel, string> = {
   LOW: "강함",
 };
 
+
 type Props = {
   memberName: string;
 };
 
 function WeaknessRow({ item, rank }: { item: TagWeaknessItem; rank: number }) {
-  const barWidth = item.finalScore * 100;
+  const barWidth = item.weaknessScore * 100;
+  const displayLevel = item.weaknessLevel;
   const timeLabel = item.timeRatio === null
     ? null
     : item.timeRatio > 1.0
@@ -38,15 +40,15 @@ function WeaknessRow({ item, rank }: { item: TagWeaknessItem; rank: number }) {
           <Styled.TagMeta>{meta}</Styled.TagMeta>
         </Styled.RowTop>
         <Styled.BarWrapper>
-          <Styled.Bar width={barWidth} level={item.weaknessLevel} />
+          <Styled.Bar width={barWidth} level={displayLevel} />
         </Styled.BarWrapper>
       </Styled.RowMain>
       <Styled.RowRight>
-        <Styled.ScoreNumber level={item.weaknessLevel}>
-          {Math.round(item.finalScore * 100)}
+        <Styled.ScoreNumber level={displayLevel}>
+          {Math.round(item.weaknessScore * 100)}
         </Styled.ScoreNumber>
-        <Styled.LevelBadge level={item.weaknessLevel}>
-          {LEVEL_LABEL[item.weaknessLevel]}
+        <Styled.LevelBadge level={displayLevel}>
+          {LEVEL_LABEL[displayLevel]}
         </Styled.LevelBadge>
       </Styled.RowRight>
     </Styled.Row>
@@ -67,7 +69,7 @@ export function TagWeaknessCard({ memberName }: Props) {
           <Styled.InfoTooltip>
             <div>약점 점수 = (1 − 자력풀이율) × 60% + 시간 점수 × 40%</div>
             <div>시간 점수 = 내 전체 평균 대비 해당 태그 풀이 시간 (오래 걸릴수록 높음)</div>
-            <div>최종 점수 = 약점 점수 × 신뢰도 (풀이 수가 많을수록 높음)</div>
+            <div>신뢰도 = 풀이 수가 많을수록 높음</div>
           </Styled.InfoTooltip>
         </Styled.InfoButton>
       </Styled.Header>

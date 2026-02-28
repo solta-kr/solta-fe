@@ -34,6 +34,7 @@ export const InfoTooltip = styled.div`
   padding: 12px 14px;
   z-index: 200;
   white-space: nowrap;
+  text-align: left;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
   font-size: 0.75rem;
   color: ${({ theme }) => theme.colors.textSecondary};
