@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SolvedList } from "../components/SolvedList/SolvedList";
 import { SolveTrendsChart } from "../components/SolveTrendsChart/SolveTrendsChart";
 import { TagWeaknessCard } from "../components/TagWeaknessCard/TagWeaknessCard";
-import { RetryListCard } from "../components/RetryListCard/RetryListCard";
+import { ReviewSection } from "../components/ReviewSection/ReviewSection";
 import { TierStatsChart } from "../components/TierStatsChart/TierStatsChart";
 import { ProblemDetailPanel } from "../components/ProblemDetailPanel/ProblemDetailPanel";
 import { BojLinkModal } from "../components/BojLinkModal/BojLinkModal";
@@ -180,7 +180,7 @@ export function ProfilePage() {
               active={activeTab === "retry"}
               onClick={() => { trackEvent('profile_tab_switch', { tab: 'retry' }); setActiveTab("retry"); }}
             >
-              다시 도전하기
+              복습하기
             </Styled.TabButton>
           </Styled.TabHeader>
 
@@ -206,8 +206,8 @@ export function ProfilePage() {
                 )}
               </>
             )}
-            {activeTab === "retry" && username && (
-              <RetryListCard memberName={username} onProblemClick={handleProblemClick} />
+            {activeTab === "retry" && (
+              <ReviewSection username={username} isOwner={isMyProfile} />
             )}
           </Styled.TabContent>
         </Styled.TabSection>

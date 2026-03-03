@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, ChevronDown, Clock, Tag } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { solvedQueryOptions } from "../../api/queries/solved";
-import { SolvedItem } from "../SolvedItem/SolvedItem";
+import { getTierGroupFromTier, TIER_GROUP_COLORS, hslToRgb } from "../../constants/tierColors";
+import formatSeconds from "../../utils/formatSeconds";
+import type { RecentSolvedResponse } from "../../types/api";
 import * as Styled from "./RetryListCard.styled";
 
 type SortOption = "LATEST" | "TIER" | "SOLVE_TIME";
@@ -12,8 +14,94 @@ interface RetryListCardProps {
   onProblemClick?: (bojProblemId: number, solveTimeSeconds: number | null) => void;
 }
 
+interface RetryItemProps {
+  solved: RecentSolvedResponse;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onProblemClick?: (bojProblemId: number, solveTimeSeconds: number | null) => void;
+}
+
+function RetryItem({ solved, isExpanded, onToggle, onProblemClick }: RetryItemProps) {
+  const tierGroup = getTierGroupFromTier(solved.problem.tier);
+  const tierColor = hslToRgb(TIER_GROUP_COLORS[tierGroup]);
+
+  const handleMainClick = () => {
+    if (onProblemClick) {
+      onProblemClick(solved.problem.bojProblemId, solved.solveTimeSeconds);
+    }
+  };
+
+  const handleExpandClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggle();
+  };
+
+  return (
+    <Styled.ItemWrapper>
+      <Styled.ItemMain onClick={handleMainClick}>
+        <Styled.TierBar color={tierColor} />
+
+        <Styled.ProblemInfo>
+          <Styled.ProblemHeader>
+            <Styled.ProblemNumber>#{solved.problem.bojProblemId}</Styled.ProblemNumber>
+            <Styled.ProblemTitle>{solved.problem.title}</Styled.ProblemTitle>
+          </Styled.ProblemHeader>
+
+          <Styled.ProblemMeta>
+            <Styled.TierText color={tierColor}>{solved.problem.tier}</Styled.TierText>
+            {solved.solveTimeSeconds != null && (
+              <Styled.MetaItem>
+                <Clock size={12} />
+                {formatSeconds(solved.solveTimeSeconds)}
+              </Styled.MetaItem>
+            )}
+            {solved.problem.tags.length > 0 && !isExpanded && (
+              <Styled.MetaItem>
+                <Tag size={12} />
+                {solved.problem.tags[0]}
+                {solved.problem.tags.length > 1 && ` +${solved.problem.tags.length - 1}`}
+              </Styled.MetaItem>
+            )}
+            <Styled.SolveTypeBadge>참고함</Styled.SolveTypeBadge>
+          </Styled.ProblemMeta>
+        </Styled.ProblemInfo>
+
+        <Styled.ExpandButton
+          $expanded={isExpanded}
+          onClick={handleExpandClick}
+          title={isExpanded ? "접기" : "펼치기"}
+        >
+          <ChevronDown size={16} />
+        </Styled.ExpandButton>
+      </Styled.ItemMain>
+
+      {isExpanded && (
+        <Styled.ItemDetails>
+          {solved.problem.tags.length > 0 && (
+            <Styled.TagList>
+              {solved.problem.tags.map((tag) => (
+                <Styled.TagBadge key={tag}>{tag}</Styled.TagBadge>
+              ))}
+            </Styled.TagList>
+          )}
+          <Styled.DetailActions>
+            <Styled.BojDetailLink
+              href={`https://acmicpc.net/problem/${solved.problem.bojProblemId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              BOJ에서 풀기 ↗
+            </Styled.BojDetailLink>
+          </Styled.DetailActions>
+        </Styled.ItemDetails>
+      )}
+    </Styled.ItemWrapper>
+  );
+}
+
 export function RetryListCard({ memberName, onProblemClick }: RetryListCardProps) {
   const [sortBy, setSortBy] = useState<SortOption>("LATEST");
+  const [expandedId, setExpandedId] = useState<number | null>(null);
 
   const { data: retryProblems = [], isLoading, refetch } = useQuery(
     solvedQueryOptions.retryProblems(memberName, sortBy)
@@ -23,13 +111,17 @@ export function RetryListCard({ memberName, onProblemClick }: RetryListCardProps
     refetch();
   };
 
+  const handleToggle = (solvedId: number) => {
+    setExpandedId(expandedId === solvedId ? null : solvedId);
+  };
+
   if (isLoading) {
     return (
       <Styled.Container>
         <Styled.Header>
           <div>
             <Styled.Title>다시 도전하기</Styled.Title>
-            <Styled.Subtitle>로딩 중...</Styled.Subtitle>
+            <Styled.Subtitle>불러오는 중...</Styled.Subtitle>
           </div>
           <Styled.IconWrapper onClick={handleRefresh}>
             <RotateCcw size={20} />
@@ -44,14 +136,15 @@ export function RetryListCard({ memberName, onProblemClick }: RetryListCardProps
       <Styled.Header>
         <div>
           <Styled.Title>다시 도전하기</Styled.Title>
-          <Styled.Subtitle>풀이를 참고했던 {retryProblems.length}문제</Styled.Subtitle>
+          <Styled.Subtitle>
+            풀이를 참고했던 {retryProblems.length}문제 · SELF로 바꿔보세요
+          </Styled.Subtitle>
         </div>
         <Styled.IconWrapper onClick={handleRefresh}>
           <RotateCcw size={20} />
         </Styled.IconWrapper>
       </Styled.Header>
 
-      {/* Sort Options */}
       <Styled.SortContainer>
         <Styled.SortButton
           type="button"
@@ -76,15 +169,14 @@ export function RetryListCard({ memberName, onProblemClick }: RetryListCardProps
         </Styled.SortButton>
       </Styled.SortContainer>
 
-      {/* Problem List */}
       <Styled.ProblemList>
         {retryProblems.length > 0 ? (
           retryProblems.map((solved) => (
-            <SolvedItem
+            <RetryItem
               key={solved.solvedId}
               solved={solved}
-              showSolveType={false}
-              showDate={false}
+              isExpanded={expandedId === solved.solvedId}
+              onToggle={() => handleToggle(solved.solvedId)}
               onProblemClick={onProblemClick}
             />
           ))
@@ -96,10 +188,13 @@ export function RetryListCard({ memberName, onProblemClick }: RetryListCardProps
         )}
       </Styled.ProblemList>
 
-      {/* Motivation */}
       {retryProblems.length > 0 && (
         <Styled.Motivation>
-          다시 도전해서 SELF로 바꿔보세요!
+          <RotateCcw size={20} color="#5B9FED" />
+          <Styled.MotivationText>
+            <Styled.MotivationTitle>다시 도전해보세요!</Styled.MotivationTitle>
+            <Styled.MotivationSub>참고했던 문제를 직접 풀면 SELF로 변경돼요</Styled.MotivationSub>
+          </Styled.MotivationText>
         </Styled.Motivation>
       )}
     </Styled.Container>

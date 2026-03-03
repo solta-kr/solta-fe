@@ -124,6 +124,7 @@ export interface AuthMeResponse {
   githubId: string;
   bojId: string | null;
   avatarUrl: string;
+  defaultReviewInterval: number;
 }
 
 // BOJ 인증 관련 타입
@@ -200,6 +201,40 @@ export interface TagWeaknessItem {
   weaknessLevel: WeaknessLevel;
   confidence: number;
   finalScore: number;
+}
+
+// 복습 스케줄 관련 타입
+export interface ReviewProblemSummary {
+  bojProblemId: number;
+  title: string;
+  tier: Tier;
+  tags: string[];
+}
+
+export interface ReviewItem {
+  id: number;
+  scheduledDate: string;
+  isOverdue: boolean;
+  round: number;
+  problem: ReviewProblemSummary;
+  originSolvedAt: string;
+}
+
+export interface ReviewListResponse {
+  overdueCount: number;
+  reviews: ReviewItem[];
+}
+
+export interface ReviewHistoryItem {
+  id: number;
+  scheduledDate: string;
+  completedAt: string;
+  round: number;
+  problem: ReviewProblemSummary;
+}
+
+export interface ReviewHistoryResponse {
+  histories: ReviewHistoryItem[];
 }
 
 // Feed

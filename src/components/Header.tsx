@@ -476,7 +476,7 @@ export function Header() {
 				</SearchSection>
 
 				<AuthSection>
-					{isLoggedIn ? (
+				{isLoggedIn ? (
 						<UserMenuContainer ref={userMenuRef}>
 							<UserMenuButton onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
 								{user?.avatarUrl ? (

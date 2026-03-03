@@ -17,6 +17,8 @@ import type {
   ActivityHeatmapResponse,
   FeedResponse,
   TagWeaknessItem,
+  ReviewListResponse,
+  ReviewHistoryResponse,
 } from "../types/api";
 import type { SolvedPeriod, TierGroup } from "../types/types";
 
@@ -176,6 +178,30 @@ export const activityApi = {
 export const feedApi = {
   getRecentFeed: () =>
     api.get<FeedResponse>('/feed/recent').then((r) => r.data),
+};
+
+export const reviewApi = {
+  async getReviews(name: string): Promise<ReviewListResponse> {
+    const response = await api.get<ReviewListResponse>("/reviews", { params: { name } });
+    return response.data;
+  },
+
+  async skip(id: number): Promise<void> {
+    await api.post(`/reviews/${id}/skip`);
+  },
+
+  async reschedule(id: number, interval: number): Promise<void> {
+    await api.patch(`/reviews/${id}/reschedule`, { interval });
+  },
+
+  async updateReviewSetting(defaultReviewInterval: number): Promise<void> {
+    await api.put("/members/me/review-setting", { defaultReviewInterval });
+  },
+
+  async getCompletedReviews(name: string): Promise<ReviewHistoryResponse> {
+    const response = await api.get<ReviewHistoryResponse>("/reviews/completed", { params: { name } });
+    return response.data;
+  },
 };
 
 export const problemApi = {
