@@ -19,6 +19,8 @@ import type {
   TagWeaknessItem,
   ReviewListResponse,
   ReviewHistoryResponse,
+  XpSummaryResponse,
+  XpHistoryResponse,
 } from "../types/api";
 import type { SolvedPeriod, TierGroup } from "../types/types";
 
@@ -200,6 +202,21 @@ export const reviewApi = {
 
   async getCompletedReviews(name: string): Promise<ReviewHistoryResponse> {
     const response = await api.get<ReviewHistoryResponse>("/reviews/completed", { params: { name } });
+    return response.data;
+  },
+};
+
+export const xpApi = {
+  async getXpSummary(username: string): Promise<XpSummaryResponse> {
+    const response = await api.get<XpSummaryResponse>(`/members/${username}/xp`);
+    return response.data;
+  },
+
+  async getXpHistory(username: string, period = 'WEEK'): Promise<XpHistoryResponse> {
+    const response = await api.get<XpHistoryResponse>(
+      `/members/${username}/xp/history`,
+      { params: { period } }
+    );
     return response.data;
   },
 };

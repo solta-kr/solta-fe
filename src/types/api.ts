@@ -16,6 +16,7 @@ export interface RecentSolvedResponse {
   solveType: SolveType;
   solveTimeSeconds: number | null;
   memo: string | null;
+  earnedXp: number | null;
   problem: ProblemDetail;
   createdAt: string;
 }
@@ -235,6 +236,30 @@ export interface ReviewHistoryItem {
 
 export interface ReviewHistoryResponse {
   histories: ReviewHistoryItem[];
+}
+
+// XP 관련 타입
+export interface XpSummaryResponse {
+  totalXp: number;
+  level: number;
+  title: string;
+  currentLevelXp: number;
+  nextLevelRequiredXp: number;
+  progressPercent: number;
+}
+
+export interface XpHistoryItemResponse {
+  solvedId: number;
+  xpAmount: number;
+  solveType: string;
+  tierWeight: number;
+  streakBonus: number;
+  createdAt: string;
+}
+
+export interface XpHistoryResponse {
+  periodXp: number;
+  history: XpHistoryItemResponse[];
 }
 
 // Feed

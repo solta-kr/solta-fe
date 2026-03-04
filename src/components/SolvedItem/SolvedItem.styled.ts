@@ -87,6 +87,16 @@ export const DateText = styled.span`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
+export const XpBadge = styled.span`
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #FBBF24;
+  background: rgba(251,191,36,0.12);
+  padding: 3px 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+`;
+
 export const SolveTypeBadge = styled.div<{ solveType: SolveType }>`
   padding: 4px 12px;
   border-radius: 12px;

@@ -86,6 +86,10 @@ export function SolvedItem({ solved, showSolveType = false, showDate = false, on
         </Styled.ProblemMeta>
       </Styled.ProblemInfo>
 
+      {solved.earnedXp != null && (
+        <Styled.XpBadge>+{solved.earnedXp} XP</Styled.XpBadge>
+      )}
+
       {showSolveType && (
         <Styled.SolveTypeBadge solveType={solved.solveType}>
           {solved.solveType === "SELF" ? "스스로" : "참고"}

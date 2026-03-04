@@ -11,12 +11,14 @@ import { BojLinkModal } from "../components/BojLinkModal/BojLinkModal";
 import { ActivityHeatmap } from "../components/ActivityHeatmap/ActivityHeatmap";
 import { WeekSummaryCard } from "../components/WeekSummaryCard/WeekSummaryCard";
 import { ProfileStatsCard } from "../components/ProfileStatsCard/ProfileStatsCard";
-import { X, Link as LinkIcon, BadgeCheck } from "lucide-react";
+import { X, Link as LinkIcon, BadgeCheck, Zap } from "lucide-react";
 import { solvedQueryOptions } from "../api/queries/solved";
 import { activityQueryOptions } from "../api/queries/activity";
+import { xpQueryOptions } from "../api/queries/xp";
 import { problemApi } from "../api/api";
 import { trackEvent } from "../utils/gtag";
 import { useAuth } from "../context/AuthContext";
+import { getLevelStyle } from "../constants/levelColors";
 import * as Styled from "./ProfilePage.styled";
 
 export function ProfilePage() {
@@ -47,6 +49,8 @@ export function ProfilePage() {
       `${currentYear}-12-31`
     )
   );
+
+  const { data: xpSummary } = useQuery(xpQueryOptions.summary(username || ""));
 
   const { data: detail, isLoading: isDetailLoading } = useQuery({
     queryKey: ["problemDetail", selectedBojId],
@@ -99,6 +103,7 @@ export function ProfilePage() {
   }
 
   const drawerOpen = selectedBojId !== null;
+  const levelStyle = xpSummary ? getLevelStyle(xpSummary.level) : null;
 
   return (
     <>
@@ -106,42 +111,66 @@ export function ProfilePage() {
         <Styled.UserSection>
           <Styled.UserSectionTop>
             <Styled.UserInfo>
-              <Styled.UserIcon src={profile?.avatarUrl} />
+              <Styled.UserIconWrapper>
+                <Styled.UserIcon src={profile?.avatarUrl} />
+                {levelStyle && (
+                  <Styled.AvatarLevelBadge
+                    $background={levelStyle.background}
+                    $textColor={levelStyle.textColor}
+                    $glow={levelStyle.glow}
+                  >
+                    Lv.{xpSummary!.level}
+                  </Styled.AvatarLevelBadge>
+                )}
+              </Styled.UserIconWrapper>
               <Styled.UserDetails>
                 <Styled.UserHeader>
                   <Styled.UserId>{username}</Styled.UserId>
-                </Styled.UserHeader>
-                {profile?.bojId && (
-                  <Styled.UserStats>
-                    <Styled.BojIdRow>
-                      <span>백준 ID: <Styled.BojProfileLink href={`https://www.acmicpc.net/user/${profile.bojId}`} target="_blank" rel="noopener noreferrer">{profile.bojId}</Styled.BojProfileLink></span>
-                      <Styled.SolvedAcLink
-                        href={`https://solved.ac/profile/${profile.bojId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Styled.SolvedAcIcon viewBox="0 0 100 60" width={20} height={12}>
-                          <rect x="0" y="0" width="100" height="60" rx="12" fill="#17ce3a" />
-                          <text x="50" y="43" textAnchor="middle" fill="#fff" fontSize="36" fontWeight="800" fontFamily="Arial, sans-serif">AC</text>
-                        </Styled.SolvedAcIcon>
-                        solved.ac
-                      </Styled.SolvedAcLink>
-                    </Styled.BojIdRow>
-                  </Styled.UserStats>
-                )}
-                {isMyProfile && (
-                  <Styled.ProfileActionsRow>
-                    {needsBojLink && (
-                      <Styled.BojLinkButton onClick={() => setShowBojModal(true)}>
-                        <LinkIcon size={14} />
-                        백준 ID 연결하기
-                      </Styled.BojLinkButton>
-                    )}
+                  {profile?.bojId && (
+                    <Styled.BojChipAc
+                      href={`https://solved.ac/profile/${profile.bojId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Styled.SolvedAcIcon viewBox="0 0 100 60" width={16} height={10}>
+                        <rect x="0" y="0" width="100" height="60" rx="12" fill="#17ce3a" />
+                        <text x="50" y="43" textAnchor="middle" fill="#fff" fontSize="36" fontWeight="800" fontFamily="Arial, sans-serif">AC</text>
+                      </Styled.SolvedAcIcon>
+                      solved.ac
+                    </Styled.BojChipAc>
+                  )}
+                  {isMyProfile && needsBojLink && (
+                    <Styled.BojLinkButton onClick={() => setShowBojModal(true)}>
+                      <LinkIcon size={14} />
+                      백준 ID 연결하기
+                    </Styled.BojLinkButton>
+                  )}
+                  {isMyProfile && (
                     <Styled.BadgeLinkButton onClick={() => navigate('/badge')}>
                       <BadgeCheck size={14} />
                       내 배지 확인하기
                     </Styled.BadgeLinkButton>
-                  </Styled.ProfileActionsRow>
+                  )}
+                </Styled.UserHeader>
+                {xpSummary && levelStyle && (
+                  <Styled.InlineXpSection>
+                    <Styled.InlineXpRow>
+                      <Styled.InlineXpTitle $color={levelStyle.color}>
+                        <Zap size={12} />
+                        {xpSummary.title}
+                      </Styled.InlineXpTitle>
+                      <Styled.InlineXpTotal>{xpSummary.totalXp.toLocaleString()} XP</Styled.InlineXpTotal>
+                    </Styled.InlineXpRow>
+                    <Styled.InlineXpTrack>
+                      <Styled.InlineXpFill $percent={xpSummary.progressPercent} $bar={levelStyle.progressBar} />
+                    </Styled.InlineXpTrack>
+                    {xpSummary.level < 100 && (
+                      <Styled.InlineXpProgressLabel>
+                        <span>{xpSummary.currentLevelXp.toLocaleString()} / {xpSummary.nextLevelRequiredXp.toLocaleString()} XP</span>
+                        <span>다음 레벨까지 {(xpSummary.nextLevelRequiredXp - xpSummary.currentLevelXp).toLocaleString()} XP</span>
+                      </Styled.InlineXpProgressLabel>
+                    )}
+                  </Styled.InlineXpSection>
                 )}
               </Styled.UserDetails>
             </Styled.UserInfo>

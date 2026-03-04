@@ -33,6 +33,14 @@ export const UserInfo = styled.div`
   gap: ${({ theme }) => theme.spacing(4)};
 `;
 
+export const UserIconWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(1.5)};
+  flex-shrink: 0;
+`;
+
 export const UserIcon = styled.img`
   width: 72px;
   height: 72px;
@@ -44,7 +52,20 @@ export const UserIcon = styled.img`
   font-size: 2rem;
   color: white;
   font-weight: 700;
-  flex-shrink: 0;
+`;
+
+export const AvatarLevelBadge = styled.span<{
+  $background: string;
+  $textColor: string;
+  $glow?: string;
+}>`
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: ${({ $textColor }) => $textColor};
+  background: ${({ $background }) => $background};
+  padding: 2px 10px;
+  border-radius: 999px;
+  ${({ $glow }) => $glow && `box-shadow: ${$glow};`}
 `;
 
 export const UserDetails = styled.div`
@@ -106,6 +127,97 @@ export const BojProfileLink = styled.a`
   }
 `;
 
+export const BojLinksRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(2)};
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
+`;
+
+export const BojChip = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(1)};
+  padding: 3px 10px;
+  background: ${({ theme }) => theme.colors.bgTertiary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 999px;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.borderLight};
+    color: ${({ theme }) => theme.colors.text};
+  }
+`;
+
+export const BojChipAc = styled(BojChip)`
+  &:hover {
+    border-color: #17ce3a;
+    color: #17ce3a;
+    background: rgba(23, 206, 58, 0.08);
+  }
+`;
+
+export const InlineXpSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing(1.5)};
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
+`;
+
+export const InlineXpRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const InlineXpTitle = styled.span<{ $color: string }>`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(1)};
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: ${({ $color }) => $color};
+
+  svg {
+    flex-shrink: 0;
+  }
+`;
+
+export const InlineXpTrack = styled.div`
+  width: 100%;
+  height: 8px;
+  background: ${({ theme }) => theme.colors.border};
+  border-radius: 999px;
+  overflow: hidden;
+`;
+
+export const InlineXpFill = styled.div<{ $percent: number; $bar: string }>`
+  height: 100%;
+  width: ${({ $percent }) => $percent}%;
+  background: ${({ $bar }) => $bar};
+  border-radius: 999px;
+  transition: width 0.5s ease;
+`;
+
+export const InlineXpTotal = styled.span`
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  white-space: nowrap;
+`;
+
+export const InlineXpProgressLabel = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+`;
+
 export const UserStats = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,15 +236,15 @@ export const BojLinkButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing(1)};
-  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
+  padding: 3px 10px;
   background: ${({ theme }) => theme.colors.primaryLight};
   border: 1px solid ${({ theme }) => theme.colors.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border-radius: 999px;
   color: ${({ theme }) => theme.colors.primary};
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 
   &:hover {
     background: ${({ theme }) => theme.colors.primary};
@@ -151,15 +263,15 @@ export const BadgeLinkButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing(1)};
-  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
+  padding: 3px 10px;
   background: rgba(255, 154, 118, 0.08);
   border: 1px solid rgba(255, 154, 118, 0.4);
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border-radius: 999px;
   color: #FF9A76;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 
   &:hover {
     background: rgba(255, 154, 118, 0.18);
