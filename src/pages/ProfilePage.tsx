@@ -8,6 +8,7 @@ import { ReviewSection } from "../components/ReviewSection/ReviewSection";
 import { TierStatsChart } from "../components/TierStatsChart/TierStatsChart";
 import { ProblemDetailPanel } from "../components/ProblemDetailPanel/ProblemDetailPanel";
 import { BojLinkModal } from "../components/BojLinkModal/BojLinkModal";
+import { XpGuideModal } from "../components/XpGuideModal/XpGuideModal";
 import { ActivityHeatmap } from "../components/ActivityHeatmap/ActivityHeatmap";
 import { WeekSummaryCard } from "../components/WeekSummaryCard/WeekSummaryCard";
 import { ProfileStatsCard } from "../components/ProfileStatsCard/ProfileStatsCard";
@@ -29,6 +30,7 @@ export function ProfilePage() {
   const [selectedBojId, setSelectedBojId] = useState<number | null>(null);
   const [selectedSolveTimeSeconds, setSelectedSolveTimeSeconds] = useState<number | null>(null);
   const [showBojModal, setShowBojModal] = useState(false);
+  const [showXpGuide, setShowXpGuide] = useState(false);
 
   const isMyProfile = user?.name === username;
   const needsBojLink = isMyProfile && !user?.bojId;
@@ -159,7 +161,10 @@ export function ProfilePage() {
                         <Zap size={12} />
                         {xpSummary.title}
                       </Styled.InlineXpTitle>
-                      <Styled.InlineXpTotal>{xpSummary.totalXp.toLocaleString()} XP</Styled.InlineXpTotal>
+                      <Styled.InlineXpRightGroup>
+                        <Styled.InlineXpTotal>{xpSummary.totalXp.toLocaleString()} XP</Styled.InlineXpTotal>
+                        <Styled.XpGuideButton onClick={() => setShowXpGuide(true)}>이 기능은?</Styled.XpGuideButton>
+                      </Styled.InlineXpRightGroup>
                     </Styled.InlineXpRow>
                     <Styled.InlineXpTrack>
                       <Styled.InlineXpFill $percent={xpSummary.progressPercent} $bar={levelStyle.progressBar} />
@@ -268,6 +273,7 @@ export function ProfilePage() {
       </Styled.DrawerPanel>
 
       {showBojModal && <BojLinkModal onClose={() => setShowBojModal(false)} />}
+      {showXpGuide && <XpGuideModal onClose={() => setShowXpGuide(false)} />}
     </>
   );
 }

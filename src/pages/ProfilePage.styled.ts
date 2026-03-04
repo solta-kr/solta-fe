@@ -204,11 +204,35 @@ export const InlineXpFill = styled.div<{ $percent: number; $bar: string }>`
   transition: width 0.5s ease;
 `;
 
+export const InlineXpRightGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(2)};
+`;
+
 export const InlineXpTotal = styled.span`
   font-size: 0.78rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.textSecondary};
   white-space: nowrap;
+`;
+
+export const XpGuideButton = styled.button`
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.textMuted};
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+  white-space: nowrap;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.textSecondary};
+  }
 `;
 
 export const InlineXpProgressLabel = styled.div`
