@@ -7,12 +7,12 @@ interface XpGuideModalProps {
 }
 
 const LEVEL_TIERS = [
-  { label: "코딩 새싹", range: "Lv 1 ~ 10", level: 5 },
-  { label: "알고리즘 탐험가", range: "Lv 11 ~ 30", level: 20 },
-  { label: "문제 해결사", range: "Lv 31 ~ 60", level: 45 },
-  { label: "알고리즘 장인", range: "Lv 61 ~ 90", level: 75 },
-  { label: "전설", range: "Lv 91 ~ 100", level: 95 },
-  { label: "전설 ★", range: "Lv 100", level: 100 },
+  { label: "Newbie", range: "Lv 1 ~ 10", level: 5 },
+  { label: "Pupil", range: "Lv 11 ~ 30", level: 20 },
+  { label: "Specialist", range: "Lv 31 ~ 60", level: 45 },
+  { label: "Expert", range: "Lv 61 ~ 90", level: 75 },
+  { label: "Master", range: "Lv 91 ~ 99", level: 95 },
+  { label: "Legendary", range: "Lv 100", level: 100 },
 ];
 
 export function XpGuideModal({ onClose }: XpGuideModalProps) {
