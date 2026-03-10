@@ -8,8 +8,10 @@ import ProblemSearchPage from './pages/ProblemSearchPage';
 import AuthCallbackPage from './pages/AuthCallbackPage';
 import PrivacyPage from './pages/PrivacyPage';
 import BadgePreviewPage from './pages/BadgePreviewPage';
+import { useChannelTalk } from './hooks/useChannelTalk';
 
 function AppContent() {
+	useChannelTalk();
 	const location = useLocation();
 	const hiddenPaths = ['/problems', '/login/success'];
 	const hideHeader = hiddenPaths.includes(location.pathname);
