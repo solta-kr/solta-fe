@@ -33,6 +33,13 @@ export const GlobalStyle = createGlobalStyle`
 		text-decoration: none;
 	}
 
+	/* Prevent iOS Safari from zooming in on input focus (font-size < 16px triggers zoom) */
+	@media (max-width: 768px) {
+		input, textarea, select {
+			font-size: 16px !important;
+		}
+	}
+
 	/* Scrollbar styling for dark theme */
 	::-webkit-scrollbar {
 		width: 8px;
