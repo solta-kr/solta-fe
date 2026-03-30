@@ -90,6 +90,10 @@ export function SolvedItem({ solved, showSolveType = false, showDate = false, on
         <Styled.XpBadge>+{solved.earnedXp} XP</Styled.XpBadge>
       )}
 
+      {showDate && solved.createdAt && (
+        <Styled.DateTextMobile>{formatDate(solved.createdAt)}</Styled.DateTextMobile>
+      )}
+
       {showSolveType && (
         <Styled.SolveTypeBadge solveType={solved.solveType}>
           {solved.solveType === "SELF" ? "스스로" : "참고"}

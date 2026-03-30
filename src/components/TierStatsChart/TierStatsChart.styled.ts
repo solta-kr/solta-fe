@@ -75,6 +75,10 @@ export const EmptyState = styled.div`
 export const ChartWrapper = styled.div`
   width: 100%;
   height: 400px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    height: 280px;
+  }
 `;
 
 export const InsightBox = styled.div`

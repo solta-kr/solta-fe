@@ -6,6 +6,14 @@ export const ProfileContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   background: ${({ theme }) => theme.colors.bg};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: ${({ theme }) => theme.spacing(4)};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing(3)};
+  }
 `;
 
 export const UserSection = styled.div`
@@ -20,6 +28,10 @@ export const UserSection = styled.div`
 
 export const UserSectionTop = styled.div`
   padding: ${({ theme }) => theme.spacing(6)};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing(4)};
+  }
 `;
 
 export const UserCardDivider = styled.div`
@@ -31,6 +43,10 @@ export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing(4)};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    align-items: flex-start;
+  }
 `;
 
 export const UserIconWrapper = styled.div`
@@ -77,6 +93,7 @@ export const UserHeader = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing(2)};
   margin-bottom: ${({ theme }) => theme.spacing(2)};
+  flex-wrap: wrap;
 `;
 
 export const UserId = styled.h1`
@@ -84,6 +101,10 @@ export const UserId = styled.h1`
   color: ${({ theme }) => theme.colors.text};
   margin: 0;
   font-weight: 700;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 1.4rem;
+  }
 `;
 
 export const SolvedAcLink = styled.a`
@@ -360,6 +381,10 @@ export const FullWidthSection = styled.div`
   padding: ${({ theme }) => theme.spacing(6)};
   box-shadow: ${({ theme }) => theme.shadows.md};
   border: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing(4)};
+  }
 `;
 
 export const TwoColumnGrid = styled.div`
@@ -528,6 +553,10 @@ export const DrawerPanel = styled.div<{ $open: boolean }>`
   transition: transform 0.25s ease;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 100%;
+  }
 `;
 
 export const DrawerHeader = styled.div`

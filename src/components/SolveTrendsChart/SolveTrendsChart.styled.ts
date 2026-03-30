@@ -6,6 +6,10 @@ export const Container = styled.div`
   padding: ${({ theme }) => theme.spacing(6)};
   box-shadow: ${({ theme }) => theme.shadows.md};
   border: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing(4)};
+  }
 `;
 
 export const Header = styled.div`

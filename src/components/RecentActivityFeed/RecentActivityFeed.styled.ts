@@ -5,6 +5,10 @@ export const Section = styled.section`
   border-top: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   padding: ${({ theme }) => theme.spacing(10)} ${({ theme }) => theme.spacing(6)};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing(8)} ${({ theme }) => theme.spacing(4)};
+  }
 `;
 
 export const Inner = styled.div`
@@ -73,7 +77,6 @@ export const StatSummary = styled.p`
   font-size: 0.82rem;
   color: ${({ theme }) => theme.colors.textMuted};
   margin: 0;
-  white-space: nowrap;
 `;
 
 export const StatNum = styled.span`
@@ -102,6 +105,7 @@ export const Row = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   cursor: pointer;
   transition: background 0.15s ease;
+  overflow: hidden;
 
   &:hover {
     background: ${({ theme }) => theme.colors.bgTertiary};
@@ -124,12 +128,6 @@ export const RowBody = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing(3)};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-  }
 `;
 
 export const RowLeft = styled.div`
@@ -138,6 +136,7 @@ export const RowLeft = styled.div`
   gap: ${({ theme }) => theme.spacing(2)};
   min-width: 0;
   flex: 1;
+  overflow: hidden;
 `;
 
 export const Username = styled.span`
@@ -158,6 +157,7 @@ export const ProblemText = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0;
+  flex: 1;
 `;
 
 export const ProblemName = styled.span`

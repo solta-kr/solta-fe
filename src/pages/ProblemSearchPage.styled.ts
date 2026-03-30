@@ -31,6 +31,10 @@ export const ContentArea = styled.div`
   flex: 1;
   display: flex;
   min-height: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    overflow: hidden;
+  }
 `;
 
 // Left: Search + List
@@ -153,11 +157,59 @@ export const EmptyState = styled.div`
 `;
 
 // Right: Detail panel
-export const DetailSection = styled.div`
+export const DetailSection = styled.div<{ $hasSelection?: boolean }>`
   width: 420px;
   flex-shrink: 0;
   background: ${({ theme }) => theme.colors.bgSecondary};
   overflow-y: auto;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 200;
+    display: ${({ $hasSelection }) => ($hasSelection ? 'flex' : 'none')};
+    flex-direction: column;
+    overflow-y: auto;
+  }
+`;
+
+export const MobileDetailHeader = styled.div`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: flex;
+    align-items: center;
+    padding: ${({ theme }) => theme.spacing(3)} ${({ theme }) => theme.spacing(4)};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+    background: ${({ theme }) => theme.colors.bgSecondary};
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+`;
+
+export const MobileBackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing(2)};
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: ${({ theme }) => theme.spacing(1)};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.bgTertiary};
+    color: ${({ theme }) => theme.colors.text};
+  }
 `;
 
 export const DetailPlaceholder = styled.div`
