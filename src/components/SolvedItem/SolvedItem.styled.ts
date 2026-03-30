@@ -62,6 +62,11 @@ export const ProblemMeta = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing(3)};
   flex-wrap: wrap;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
 `;
 
 export const TierText = styled.span<{ color: string }>`
@@ -76,6 +81,7 @@ export const MetaItem = styled.div`
   gap: 4px;
   font-size: 0.75rem;
   color: ${({ theme }) => theme.colors.textSecondary};
+  white-space: nowrap;
 
   svg {
     flex-shrink: 0;
@@ -85,6 +91,22 @@ export const MetaItem = styled.div`
 export const DateText = styled.span`
   font-size: 0.75rem;
   color: ${({ theme }) => theme.colors.textSecondary};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
+`;
+
+export const DateTextMobile = styled.span`
+  display: none;
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: block;
+  }
 `;
 
 export const XpBadge = styled.span`
@@ -121,5 +143,9 @@ export const ExternalLinkIcon = styled.div`
 
   ${Container}:hover & {
     opacity: 1;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
   }
 `;

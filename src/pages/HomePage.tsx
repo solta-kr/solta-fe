@@ -14,6 +14,10 @@ const Hero = styled.section`
   padding: ${({ theme }) => theme.spacing(16)} ${({ theme }) => theme.spacing(6)} ${({ theme }) => theme.spacing(12)};
   max-width: 720px;
   margin: 0 auto;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing(10)} ${({ theme }) => theme.spacing(4)} ${({ theme }) => theme.spacing(8)};
+  }
 `;
 
 const LogoRow = styled.div`
@@ -49,6 +53,10 @@ const Title = styled.h1`
   span {
     color: ${({ theme }) => theme.colors.primary};
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 2rem;
+  }
 `;
 
 const Subtitle = styled.p`
@@ -56,12 +64,22 @@ const Subtitle = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
   margin: 0 0 ${({ theme }) => theme.spacing(8)} 0;
   line-height: 1.7;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 1rem;
+  }
 `;
 
 const CTARow = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing(3)};
   justify-content: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 ${({ theme }) => theme.spacing(2)};
+  }
 `;
 
 const CTAButton = styled.button<{ $primary?: boolean }>`

@@ -171,7 +171,13 @@ export default function ProblemSearchPage() {
         </Styled.ListSection>
 
         {/* Right: Detail Panel */}
-        <Styled.DetailSection>
+        <Styled.DetailSection $hasSelection={!!selectedProblem}>
+          <Styled.MobileDetailHeader>
+            <Styled.MobileBackButton onClick={() => setSelectedProblem(null)}>
+              <ArrowLeft size={18} />
+              목록으로
+            </Styled.MobileBackButton>
+          </Styled.MobileDetailHeader>
           {selectedProblem ? (
             isDetailLoading ? (
               <Styled.DetailLoading>불러오는 중...</Styled.DetailLoading>

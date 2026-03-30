@@ -25,6 +25,11 @@ const HeaderContent = styled.div`
 	align-items: center;
 	justify-content: center;
 	position: relative;
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+		justify-content: space-between;
+		gap: ${({ theme }) => theme.spacing(3)};
+	}
 `;
 
 const LogoSection = styled.div`
@@ -38,6 +43,11 @@ const LogoSection = styled.div`
 
 	&:hover {
 		opacity: 0.8;
+	}
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+		position: relative;
+		left: auto;
 	}
 `;
 
@@ -65,12 +75,21 @@ const LogoText = styled.h1`
 	font-weight: bold;
 	color: ${({ theme }) => theme.colors.text};
 	margin: 0;
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+		font-size: 1.4rem;
+	}
 `;
 
 const SearchSection = styled.div`
 	max-width: 400px;
 	width: 100%;
 	position: relative;
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+		flex: 1;
+		max-width: none;
+	}
 `;
 
 const SearchContainer = styled.div`
@@ -122,6 +141,14 @@ const Dropdown = styled.div`
 	border-radius: ${({ theme }) => theme.borderRadius.md};
 	box-shadow: ${({ theme }) => theme.shadows.lg};
 	z-index: 200;
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+		position: fixed;
+		top: 72px;
+		left: ${({ theme }) => theme.spacing(3)};
+		right: ${({ theme }) => theme.spacing(3)};
+		width: auto;
+	}
 `;
 
 const DropdownSection = styled.div`
@@ -225,6 +252,11 @@ const AuthSection = styled.div`
 	display: flex;
 	align-items: center;
 	z-index: 10;
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+		position: relative;
+		right: auto;
+	}
 `;
 
 const LoginButton = styled.button`
@@ -243,6 +275,16 @@ const LoginButton = styled.button`
 
 	&:hover {
 		background: ${({ theme }) => theme.colors.border};
+	}
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+		padding: ${({ theme }) => theme.spacing(2)};
+	}
+`;
+
+const LoginButtonText = styled.span`
+	@media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+		display: none;
 	}
 `;
 
@@ -281,6 +323,10 @@ const UserName = styled.span`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+
+	@media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+		display: none;
+	}
 `;
 
 const UserDropdown = styled.div`
@@ -507,7 +553,7 @@ export function Header() {
 					) : (
 						<LoginButton onClick={handleLogin}>
 							<Github size={16} />
-							GitHub 로그인
+							<LoginButtonText>GitHub 로그인</LoginButtonText>
 						</LoginButton>
 					)}
 				</AuthSection>

@@ -19,13 +19,23 @@ export const StatItem = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex: 0 0 50%;
     min-width: 0;
+    padding: ${({ theme }) => theme.spacing(4)};
 
-    &:nth-child(3) {
+    /* 오른쪽 열 (2번째, 4번째 StatItem) */
+    &:nth-child(3),
+    &:nth-child(7) {
+      border-left: 1px solid ${({ theme }) => theme.colors.border};
+    }
+
+    /* 아래 행 (3번째, 4번째 StatItem) */
+    &:nth-child(5),
+    &:nth-child(7) {
       border-top: 1px solid ${({ theme }) => theme.colors.border};
     }
-    &:last-child {
-      border-top: 1px solid ${({ theme }) => theme.colors.border};
-    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing(3)};
   }
 `;
 
@@ -49,6 +59,10 @@ export const StatValue = styled.div`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.text};
   line-height: 1.2;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 1.05rem;
+  }
 `;
 
 export const StatSubValue = styled.div`

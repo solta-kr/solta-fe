@@ -128,6 +128,8 @@ export const PeriodButton = styled.button<{ $active: boolean }>`
 
 export const SvgWrapper = styled.div`
   position: relative;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 `;
 
 export const Tooltip = styled.div`
